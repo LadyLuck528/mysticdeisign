@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Editor - Mystic Design Studio</title>
+
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="css/main.css">
+
+    <!-- Editor Scripts (we will build these later) -->
+    <script src="js/editor.js" defer></script>
+    <script src="js/3d-engine.js" defer></script>
+</head>
+
+<body>
+
+    <!-- Cosmic Background -->
+    <div class="background-overlay"></div>
+
+    <!-- HEADER -->
+    <header class="site-header">
+        <div class="header-inner">
+
+            <!-- LOGO AREA -->
+            <div class="logo-area">
+                <a href="index.html">
+                    <img src="assets/logo/logo.png" alt="Mystic Design Logo" class="site-logo">
+                </a>
+            </div>
+
+            <!-- NAVIGATION -->
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="shop.html">Shop</a></li>
+                    <li><a href="checkout.html">Checkout</a></li>
+                </ul>
+            </nav>
+
+        </div>
+    </header>
+    <!-- EDITOR LAYOUT -->
+    <section class="editor-container">
+
+        <!-- LEFT TOOL PANEL -->
+        <div class="editor-tools">
+
+            <h3>Tools</h3>
+
+            <!-- Upload Image -->
+            <div class="tool-group">
+                <label class="tool-label">Upload Image</label>
+                <input type="file" id="uploadImage" accept="image/*">
+            </div>
+
+            <!-- Add Text -->
+            <div class="tool-group">
+                <label class="tool-label">Add Text</label>
+                <input type="text" id="textInput" placeholder="Enter text...">
+                <button id="addTextButton" class="tool-btn">Add Text</button>
+            </div>
+
+            <!-- Colors -->
+            <div class="tool-group">
+                <label class="tool-label">Color</label>
+                <input type="color" id="colorPicker" value="#ffffff">
+            </div>
+
+            <!-- Layers -->
+            <div class="tool-group">
+                <label class="tool-label">Layers</label>
+                <div id="layerList" class="layer-list">
+                    <!-- Layers will populate here -->
+                </div>
+            </div>
+
+        </div>
+
+        <!-- CENTER CANVAS AREA -->
+        <div class="editor-canvas">
+
+            <!-- 3D Model Container -->
+            <div id="modelViewer" class="model-viewer">
+                <!-- 3D model will load here -->
+            </div>
+
+            <!-- Mask Overlay -->
+            <img id="maskOverlay" class="mask-overlay" src="" alt="Mask Overlay">
+
+            <!-- Print Area (for 2D preview mode) -->
+            <canvas id="designCanvas" class="design-canvas"></canvas>
+
+        </div>
+
+        <!-- RIGHT PANEL -->
+        <div class="editor-sidebar">
+
+            <h3>Product Info</h3>
+
+            <p><strong>Name:</strong> <span id="productName"></span></p>
+            <p><strong>Print Method:</strong> <span id="printMethod"></span></p>
+            <p><strong>Size:</strong> <span id="productSize"></span></p>
+
+            <h3>Actions</h3>
+
+            <button id="resetDesign" class="sidebar-btn">Reset Design</button>
+            <button id="exportDesign" class="sidebar-btn primary">Save & Continue</button>
+
+        </div>
+
+    </section>
+    <!-- FOOTER -->
+    <footer class="site-footer">
+        <div class="footer-inner">
+
+            <div class="footer-links">
+                <a href="about.html">About</a>
+                <a href="contact.html">Contact</a>
+                <a href="faq.html">FAQ</a>
+                <a href="terms.html">Terms</a>
+                <a href="privacy.html">Privacy</a>
+            </div>
+
+            <!-- Hidden Admin Link -->
+            <div class="admin-link">
+                <a href="admin.html">Admin Login</a>
+            </div>
+
+            <p class="copyright">
+                © 2026 Mystic Design Studio. All rights reserved.
+            </p>
+
+        </div>
+    </footer>
+
+</body>
+</html>

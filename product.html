@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product - Mystic Design Studio</title>
+
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="css/main.css">
+
+    <!-- Product Script (we will build this later) -->
+    <script src="js/product.js" defer></script>
+</head>
+
+<body>
+
+    <!-- Cosmic Background -->
+    <div class="background-overlay"></div>
+
+    <!-- HEADER -->
+    <header class="site-header">
+        <div class="header-inner">
+
+            <!-- LOGO AREA -->
+            <div class="logo-area">
+                <a href="index.html">
+                    <img src="assets/logo/logo.png" alt="Mystic Design Logo" class="site-logo">
+                </a>
+            </div>
+
+            <!-- NAVIGATION -->
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="shop.html">Shop</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                    <li><a href="checkout.html">Checkout</a></li>
+                </ul>
+            </nav>
+
+        </div>
+    </header>
+    <!-- PRODUCT DETAILS SECTION -->
+    <section class="product-details">
+
+        <!-- Product Image -->
+        <div class="product-image">
+            <img id="productImage" src="assets/products/placeholder.png" alt="Product Image">
+        </div>
+
+        <!-- Product Info -->
+        <div class="product-info">
+            <h1 id="productName">Loading...</h1>
+            <p id="productPrice">$0.00</p>
+            <p id="productDescription">Loading product details...</p>
+
+            <!-- Hidden Product ID -->
+            <input type="hidden" id="productId" value="">
+
+            <!-- Dynamic Buttons -->
+            <div class="product-actions">
+                <!-- This button shows ONLY if customizable -->
+                <a id="customizeButton" href="#" class="customize-btn" style="display:none;">
+                    Customize This Product
+                </a>
+
+                <!-- This button shows ONLY if NOT customizable -->
+                <button id="addToCartButton" class="add-cart-btn" style="display:none;">
+                    Add to Cart
+                </button>
+            </div>
+        </div>
+
+    </section>    
+<!-- FOOTER -->
+    <footer class="site-footer">
+        <div class="footer-inner">
+
+            <div class="footer-links">
+                <a href="about.html">About</a>
+                <a href="contact.html">Contact</a>
+                <a href="faq.html">FAQ</a>
+                <a href="terms.html">Terms</a>
+                <a href="privacy.html">Privacy</a>
+            </div>
+
+            <!-- Hidden Admin Link -->
+            <div class="admin-link">
+                <a href="admin.html">Admin Login</a>
+            </div>
+
+            <p class="copyright">
+                © 2026 Mystic Design Studio. All rights reserved.
+            </p>
+
+        </div>
+    </footer>
+
+</body>
+</html>

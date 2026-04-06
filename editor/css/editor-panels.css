@@ -1,0 +1,136 @@
+/* ------------------------------------------------------------
+   PANEL SYSTEM (LAYERS, HISTORY, COLORS, BRUSHES, EFFECTS)
+------------------------------------------------------------ */
+
+/* Generic panel container */
+.mystic-panel {
+    background: var(--mystic-bg-light);
+    border: 1px solid var(--mystic-border);
+    border-radius: var(--mystic-radius);
+    padding: 0;
+    overflow: hidden;
+    box-shadow: var(--mystic-shadow);
+}
+
+/* Panel header */
+.mystic-panel-header {
+    padding: 10px 12px;
+    background: var(--mystic-bg-panel);
+    border-bottom: 1px solid var(--mystic-border);
+    color: var(--mystic-text);
+    font-size: 14px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    user-select: none;
+}
+
+.mystic-panel-header:hover {
+    background: var(--mystic-accent);
+    color: #fff;
+    box-shadow: 0 0 10px var(--mystic-accent-glow);
+}
+
+/* Panel body */
+.mystic-panel-body {
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/* ------------------------------------------------------------
+   LAYERS PANEL
+------------------------------------------------------------ */
+
+#mystic-layers-panel .layer-item {
+    padding: 8px 10px;
+    background: var(--mystic-bg-panel);
+    border: 1px solid var(--mystic-border);
+    border-radius: var(--mystic-radius);
+    color: var(--mystic-text);
+    cursor: pointer;
+    transition: var(--mystic-transition);
+}
+
+#mystic-layers-panel .layer-item:hover {
+    background: var(--mystic-accent);
+    color: #fff;
+}
+
+#mystic-layers-panel .layer-item.active {
+    background: var(--mystic-accent);
+    color: #fff;
+    box-shadow: 0 0 10px var(--mystic-accent-glow);
+}
+
+/* ------------------------------------------------------------
+   HISTORY PANEL
+------------------------------------------------------------ */
+
+#mystic-history-panel .history-item {
+    padding: 6px 8px;
+    background: var(--mystic-bg-panel);
+    border: 1px solid var(--mystic-border);
+    border-radius: var(--mystic-radius);
+    color: var(--mystic-text-dim);
+    cursor: pointer;
+    transition: var(--mystic-transition);
+}
+
+#mystic-history-panel .history-item:hover {
+    background: var(--mystic-accent);
+    color: #fff;
+}
+
+/* ------------------------------------------------------------
+   COLOR PANEL
+------------------------------------------------------------ */
+
+#mystic-color-panel .color-swatch {
+    width: 28px;
+    height: 28px;
+    border-radius: var(--mystic-radius);
+    border: 1px solid var(--mystic-border);
+    cursor: pointer;
+    transition: var(--mystic-transition);
+}
+
+#mystic-color-panel .color-swatch:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 10px var(--mystic-accent-glow);
+}
+
+/* ------------------------------------------------------------
+   BRUSH PANEL
+------------------------------------------------------------ */
+
+#mystic-brush-panel .brush-size-slider {
+    width: 100%;
+}
+
+#mystic-brush-panel .brush-preview {
+    height: 40px;
+    background: var(--mystic-bg-panel);
+    border: 1px solid var(--mystic-border);
+    border-radius: var(--mystic-radius);
+}
+
+/* ------------------------------------------------------------
+   EFFECTS PANEL
+------------------------------------------------------------ */
+
+#mystic-effects-panel .effect-item {
+    padding: 8px 10px;
+    background: var(--mystic-bg-panel);
+    border: 1px solid var(--mystic-border);
+    border-radius: var(--mystic-radius);
+    cursor: pointer;
+    transition: var(--mystic-transition);
+}
+
+#mystic-effects-panel .effect-item:hover {
+    background: var(--mystic-accent);
+    color: #fff;
+}

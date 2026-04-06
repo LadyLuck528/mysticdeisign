@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Mystic Design Studio</title>
+
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="css/main.css">
+
+    <!-- Admin Script (we will build this later) -->
+    <script src="js/admin.js" defer></script>
+</head>
+
+<body>
+
+    <!-- Cosmic Background -->
+    <div class="background-overlay"></div>
+
+    <!-- HEADER -->
+    <header class="site-header admin-header">
+        <div class="header-inner">
+
+            <!-- LOGO AREA -->
+            <div class="logo-area">
+                <a href="index.html">
+                    <img src="assets/logo/logo.png" alt="Mystic Design Logo" class="site-logo">
+                </a>
+            </div>
+
+            <!-- ADMIN NAVIGATION -->
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="admin.html" class="active">Dashboard</a></li>
+                    <li><a href="admin-products.html">Products</a></li>
+                    <li><a href="admin-orders.html">Orders</a></li>
+                    <li><a href="admin-assets.html">Assets</a></li>
+                </ul>
+            </nav>
+
+        </div>
+    </header>
+    <!-- ADMIN DASHBOARD -->
+    <section class="admin-dashboard">
+
+        <!-- WELCOME PANEL -->
+        <div class="admin-card">
+            <h2>Welcome, Crystal</h2>
+            <p>Manage your products, orders, and assets all from one place.</p>
+        </div>
+
+        <!-- QUICK STATS -->
+        <div class="admin-stats">
+
+            <div class="stat-card">
+                <h3>Total Products</h3>
+                <p id="statProducts">0</p>
+            </div>
+
+            <div class="stat-card">
+                <h3>Pending Orders</h3>
+                <p id="statOrders">0</p>
+            </div>
+
+            <div class="stat-card">
+                <h3>Assets Uploaded</h3>
+                <p id="statAssets">0</p>
+            </div>
+
+        </div>
+
+        <!-- QUICK LINKS -->
+        <div class="admin-links">
+
+            <a href="admin-products.html" class="admin-link-card">
+                <h3>Manage Products</h3>
+                <p>Add, edit, or remove products.</p>
+            </a>
+
+            <a href="admin-orders.html" class="admin-link-card">
+                <h3>Manage Orders</h3>
+                <p>View and process customer orders.</p>
+            </a>
+
+            <a href="admin-assets.html" class="admin-link-card">
+                <h3>Manage Assets</h3>
+                <p>Upload masks, models, and product images.</p>
+            </a>
+
+        </div>
+
+    </section>
+    <!-- FOOTER -->
+    <footer class="site-footer">
+        <div class="footer-inner">
+
+            <div class="footer-links">
+                <a href="about.html">About</a>
+                <a href="contact.html">Contact</a>
+                <a href="faq.html">FAQ</a>
+                <a href="terms.html">Terms</a>
+                <a href="privacy.html">Privacy</a>
+            </div>
+
+            <!-- Hidden Admin Link -->
+            <div class="admin-link">
+                <a href="admin.html">Admin Login</a>
+            </div>
+
+            <p class="copyright">
+                © 2026 Mystic Design Studio. All rights reserved.
+            </p>
+
+        </div>
+    </footer>
+
+</body>
+</html>

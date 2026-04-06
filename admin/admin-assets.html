@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Assets - Mystic Design Studio</title>
+
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="css/main.css">
+
+    <!-- Admin Assets Script -->
+    <script src="js/admin-assets.js" defer></script>
+</head>
+
+<body>
+
+    <!-- Cosmic Background -->
+    <div class="background-overlay"></div>
+
+    <!-- HEADER -->
+    <header class="site-header admin-header">
+        <div class="header-inner">
+
+            <!-- LOGO AREA -->
+            <div class="logo-area">
+                <a href="index.html">
+                    <img src="assets/logo/logo.png" alt="Mystic Design Logo" class="site-logo">
+                </a>
+            </div>
+
+            <!-- ADMIN NAVIGATION -->
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="admin.html">Dashboard</a></li>
+                    <li><a href="admin-products.html">Products</a></li>
+                    <li><a href="admin-orders.html">Orders</a></li>
+                    <li><a href="admin-assets.html" class="active">Assets</a></li>
+                </ul>
+            </nav>
+
+        </div>
+    </header>
+    <!-- ASSET MANAGEMENT -->
+    <section class="admin-assets">
+
+        <!-- PAGE TITLE -->
+        <div class="admin-page-header">
+            <h2>Assets</h2>
+        </div>
+
+        <!-- UPLOAD PANELS -->
+        <div class="asset-upload-grid">
+
+            <!-- PRODUCT IMAGES -->
+            <div class="asset-card">
+                <h3>Product Images</h3>
+                <input type="file" id="uploadProductImage" accept="image/*">
+                <button id="uploadProductImageBtn" class="admin-btn primary">Upload</button>
+                <div id="productImagesList" class="asset-list">
+                    <!-- Product images will appear here -->
+                </div>
+            </div>
+
+            <!-- MASK FILES -->
+            <div class="asset-card">
+                <h3>Mask Files (PNG)</h3>
+                <input type="file" id="uploadMaskFile" accept="image/png">
+                <button id="uploadMaskBtn" class="admin-btn primary">Upload</button>
+                <div id="maskFilesList" class="asset-list">
+                    <!-- Mask files will appear here -->
+                </div>
+            </div>
+
+            <!-- 3D MODELS -->
+            <div class="asset-card">
+                <h3>3D Models (GLB)</h3>
+                <input type="file" id="uploadModelFile" accept=".glb">
+                <button id="uploadModelBtn" class="admin-btn primary">Upload</button>
+                <div id="modelFilesList" class="asset-list">
+                    <!-- 3D models will appear here -->
+                </div>
+            </div>
+
+        </div>
+
+    </section>
+    <!-- ASSET LIBRARY -->
+    <section class="asset-library">
+
+        <h2>Asset Library</h2>
+
+        <div class="asset-library-grid">
+
+            <!-- PRODUCT IMAGES LIST -->
+            <div class="asset-card">
+                <h3>Product Images</h3>
+                <div id="assetProductImages" class="asset-list-grid">
+                    <!-- Product images will load here -->
+                </div>
+            </div>
+
+            <!-- MASK FILES LIST -->
+            <div class="asset-card">
+                <h3>Mask Files</h3>
+                <div id="assetMaskFiles" class="asset-list-grid">
+                    <!-- Mask files will load here -->
+                </div>
+            </div>
+
+            <!-- 3D MODELS LIST -->
+            <div class="asset-card">
+                <h3>3D Models</h3>
+                <div id="assetModelFiles" class="asset-list-grid">
+                    <!-- 3D models will load here -->
+                </div>
+            </div>
+
+        </div>
+
+    </section>
+    <!-- FOOTER -->
+    <footer class="site-footer">
+        <div class="footer-inner">
+
+            <div class="footer-links">
+                <a href="about.html">About</a>
+                <a href="contact.html">Contact</a>
+                <a href="faq.html">FAQ</a>
+                <a href="terms.html">Terms</a>
+                <a href="privacy.html">Privacy</a>
+            </div>
+
+            <!-- Hidden Admin Link -->
+            <div class="admin-link">
+                <a href="admin.html">Admin Login</a>
+            </div>
+
+            <p class="copyright">
+                © 2026 Mystic Design Studio. All rights reserved.
+            </p>
+
+        </div>
+    </footer>
+
+</body>
+</html>

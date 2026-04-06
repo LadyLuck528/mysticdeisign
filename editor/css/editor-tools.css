@@ -1,0 +1,146 @@
+/* ------------------------------------------------------------
+   TOOL SYSTEM (BRUSH, ERASER, SHAPES, TEXT, FILTERS)
+------------------------------------------------------------ */
+
+/* Tool button base */
+.mystic-tool-btn {
+    padding: 8px 10px;
+    background: var(--mystic-bg-light);
+    border: 1px solid var(--mystic-border);
+    border-radius: var(--mystic-radius);
+    color: var(--mystic-text);
+    cursor: pointer;
+    transition: var(--mystic-transition);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.mystic-tool-btn:hover {
+    background: var(--mystic-accent);
+    color: #fff;
+    box-shadow: 0 0 10px var(--mystic-accent-glow);
+}
+
+.mystic-tool-btn.active {
+    background: var(--mystic-accent);
+    color: #fff;
+    box-shadow: 0 0 12px var(--mystic-accent-glow);
+}
+
+/* ------------------------------------------------------------
+   TOOL OPTION PANELS
+------------------------------------------------------------ */
+
+.mystic-tool-options {
+    background: var(--mystic-bg-panel);
+    border: 1px solid var(--mystic-border);
+    border-radius: var(--mystic-radius);
+    padding: 12px;
+    margin-top: 10px;
+    box-shadow: var(--mystic-shadow);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+/* Option label */
+.mystic-option-label {
+    font-size: 13px;
+    color: var(--mystic-text-dim);
+}
+
+/* Sliders */
+.mystic-slider {
+    width: 100%;
+    appearance: none;
+    height: 4px;
+    background: var(--mystic-border);
+    border-radius: 4px;
+    outline: none;
+}
+
+.mystic-slider::-webkit-slider-thumb {
+    appearance: none;
+    width: 14px;
+    height: 14px;
+    background: var(--mystic-accent);
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 0 0 10px var(--mystic-accent-glow);
+}
+
+/* ------------------------------------------------------------
+   BRUSH TOOL
+------------------------------------------------------------ */
+
+#mystic-brush-size-preview {
+    width: 40px;
+    height: 40px;
+    background: var(--mystic-bg-light);
+    border: 1px solid var(--mystic-border);
+    border-radius: 50%;
+    margin: 0 auto;
+    box-shadow: var(--mystic-shadow);
+}
+
+/* ------------------------------------------------------------
+   ERASER TOOL
+------------------------------------------------------------ */
+
+#mystic-eraser-preview {
+    width: 40px;
+    height: 40px;
+    background: var(--mystic-bg-panel);
+    border: 1px dashed var(--mystic-danger);
+    border-radius: var(--mystic-radius);
+    margin: 0 auto;
+}
+
+/* ------------------------------------------------------------
+   SHAPE TOOLS
+------------------------------------------------------------ */
+
+.mystic-shape-preview {
+    width: 60px;
+    height: 40px;
+    background: var(--mystic-bg-light);
+    border: 1px solid var(--mystic-border);
+    border-radius: var(--mystic-radius);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* ------------------------------------------------------------
+   TEXT TOOL
+------------------------------------------------------------ */
+
+#mystic-text-preview {
+    padding: 10px;
+    background: var(--mystic-bg-light);
+    border: 1px solid var(--mystic-border);
+    border-radius: var(--mystic-radius);
+    font-size: 16px;
+    color: var(--mystic-text);
+    text-align: center;
+}
+
+/* ------------------------------------------------------------
+   FILTER TOOL
+------------------------------------------------------------ */
+
+.mystic-filter-item {
+    padding: 8px 10px;
+    background: var(--mystic-bg-panel);
+    border: 1px solid var(--mystic-border);
+    border-radius: var(--mystic-radius);
+    cursor: pointer;
+    transition: var(--mystic-transition);
+}
+
+.mystic-filter-item:hover {
+    background: var(--mystic-accent);
+    color: #fff;
+    box-shadow: 0 0 10px var(--mystic-accent-glow);
+}

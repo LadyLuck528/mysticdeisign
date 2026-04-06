@@ -1,0 +1,36 @@
+/* ============================
+   canvas.css
+   Canvas Workspace Styling
+   ============================ */
+
+#canvas-area {
+    flex: 1;
+    background: #0b0b0d;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    position: relative;
+}
+
+#editor-canvas {
+    background: #1a1a1d;
+    border: 1px solid rgba(255,255,255,0.08);
+    box-shadow: 0 0 12px rgba(80, 60, 200, 0.25);
+    image-rendering: crisp-edges;
+    image-rendering: -webkit-optimize-contrast;
+    cursor: crosshair;
+}
+
+.canvas-overlay {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    padding: 6px 10px;
+    background: rgba(0,0,0,0.45);
+    color: #ccc;
+    font-size: 12px;
+    border-radius: 4px;
+    pointer-events: none;
+    letter-spacing: 0.5px;
+}

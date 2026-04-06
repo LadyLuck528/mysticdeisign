@@ -1,0 +1,85 @@
+/* ------------------------------------------------------------
+   MYSTICAL UI EFFECTS & ANIMATIONS
+------------------------------------------------------------ */
+
+/* Glow pulse */
+@keyframes mystic-pulse {
+    0% { box-shadow: 0 0 6px var(--mystic-accent-glow); }
+    50% { box-shadow: 0 0 14px var(--mystic-accent-glow); }
+    100% { box-shadow: 0 0 6px var(--mystic-accent-glow); }
+}
+
+.mystic-pulse {
+    animation: mystic-pulse 1.8s infinite ease-in-out;
+}
+
+/* Soft fade-in */
+@keyframes mystic-fade-in {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.mystic-fade-in {
+    animation: mystic-fade-in 0.25s ease forwards;
+}
+
+/* Soft fade-out */
+@keyframes mystic-fade-out {
+    from { opacity: 1; transform: translateY(0); }
+    to { opacity: 0; transform: translateY(-6px); }
+}
+
+.mystic-fade-out {
+    animation: mystic-fade-out 0.25s ease forwards;
+}
+
+/* Shimmer effect */
+@keyframes mystic-shimmer {
+    0% { background-position: -200px 0; }
+    100% { background-position: 200px 0; }
+}
+
+.mystic-shimmer {
+    background: linear-gradient(
+        90deg,
+        rgba(255,255,255,0.05) 0%,
+        rgba(255,255,255,0.15) 50%,
+        rgba(255,255,255,0.05) 100%
+    );
+    background-size: 200px 100%;
+    animation: mystic-shimmer 1.4s infinite;
+}
+
+/* Button press animation */
+.mystic-press {
+    transition: transform 0.1s ease;
+}
+
+.mystic-press:active {
+    transform: scale(0.94);
+}
+
+/* Hover glow */
+.mystic-hover-glow:hover {
+    box-shadow: 0 0 12px var(--mystic-accent-glow);
+}
+
+/* Panel slide-in */
+@keyframes mystic-slide-in {
+    from { opacity: 0; transform: translateX(-10px); }
+    to { opacity: 1; transform: translateX(0); }
+}
+
+.mystic-slide-in {
+    animation: mystic-slide-in 0.25s ease forwards;
+}
+
+/* Canvas highlight flash */
+@keyframes mystic-flash {
+    0% { outline: 2px solid var(--mystic-accent); }
+    100% { outline: 2px solid transparent; }
+}
+
+.mystic-flash {
+    animation: mystic-flash 0.6s ease-out;
+}

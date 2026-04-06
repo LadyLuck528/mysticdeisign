@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Products - Mystic Design Studio</title>
+
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="css/main.css">
+
+    <!-- Admin Products Script -->
+    <script src="js/admin-products.js" defer></script>
+</head>
+
+<body>
+
+    <!-- Cosmic Background -->
+    <div class="background-overlay"></div>
+
+    <!-- HEADER -->
+    <header class="site-header admin-header">
+        <div class="header-inner">
+
+            <!-- LOGO AREA -->
+            <div class="logo-area">
+                <a href="index.html">
+                    <img src="assets/logo/logo.png" alt="Mystic Design Logo" class="site-logo">
+                </a>
+            </div>
+
+            <!-- ADMIN NAVIGATION -->
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="admin.html">Dashboard</a></li>
+                    <li><a href="admin-products.html" class="active">Products</a></li>
+                    <li><a href="admin-orders.html">Orders</a></li>
+                    <li><a href="admin-assets.html">Assets</a></li>
+                </ul>
+            </nav>
+
+        </div>
+    </header>
+    <!-- PRODUCT MANAGEMENT -->
+    <section class="admin-products">
+
+        <!-- PAGE TITLE + ADD BUTTON -->
+        <div class="admin-page-header">
+            <h2>Products</h2>
+            <button id="addProductBtn" class="admin-btn primary">Add New Product</button>
+        </div>
+
+        <!-- PRODUCT LIST TABLE -->
+        <div class="admin-table-wrapper">
+            <table class="admin-table">
+                <thead>
+                    <tr>
+                        <th>Image</th>
+                        <th>Name</th>
+                        <th>Price</th>
+                        <th>Customizable</th>
+                        <th>Print Method</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+
+                <tbody id="productTableBody">
+                    <!-- Products will load here dynamically -->
+                </tbody>
+            </table>
+        </div>
+
+    </section>
+    <!-- ADD / EDIT PRODUCT FORM -->
+    <section id="productFormSection" class="admin-form-section" style="display:none;">
+
+        <h2 id="formTitle">Add New Product</h2>
+
+        <form id="productForm">
+
+            <!-- PRODUCT NAME -->
+            <label for="productNameInput">Product Name</label>
+            <input type="text" id="productNameInput" required>
+
+            <!-- PRICE -->
+            <label for="productPriceInput">Price ($)</label>
+            <input type="number" id="productPriceInput" step="0.01" required>
+
+            <!-- DESCRIPTION -->
+            <label for="productDescriptionInput">Description</label>
+            <textarea id="productDescriptionInput" required></textarea>
+
+            <!-- CUSTOMIZABLE TOGGLE -->
+            <label for="productCustomizable">Customizable?</label>
+            <select id="productCustomizable">
+                <option value="yes">Yes (Use Editor)</option>
+                <option value="no">No (Simple Add to Cart)</option>
+            </select>
+
+            <!-- PRINT METHOD -->
+            <label for="productPrintMethod">Print Method</label>
+            <select id="productPrintMethod">
+                <option value="sublimation">Sublimation</option>
+                <option value="dtf">DTF</option>
+                <option value="uv">UV Print</option>
+                <option value="screen">Screen Print</option>
+            </select>
+
+            <!-- PRODUCT IMAGE -->
+            <label for="productImageInput">Product Image</label>
+            <input type="file" id="productImageInput" accept="image/*">
+
+            <!-- MASK FILE -->
+            <label for="productMaskInput">Mask File (PNG)</label>
+            <input type="file" id="productMaskInput" accept="image/png">
+
+            <!-- 3D MODEL FILE -->
+            <label for="productModelInput">3D Model File (GLB)</label>
+            <input type="file" id="productModelInput" accept=".glb">
+
+            <!-- SIZE OPTIONS -->
+            <label for="productSizeInput">Size (optional)</label>
+            <input type="text" id="productSizeInput" placeholder="e.g. 11oz, 15oz, Large, Small">
+
+            <!-- HIDDEN PRODUCT ID -->
+            <input type="hidden" id="editingProductId">
+
+            <!-- FORM BUTTONS -->
+            <div class="form-buttons">
+                <button type="submit" class="admin-btn primary">Save Product</button>
+                <button type="button" id="cancelEditBtn" class="admin-btn">Cancel</button>
+            </div>
+
+        </form>
+
+    </section>
+    <!-- FOOTER -->
+    <footer class="site-footer">
+        <div class="footer-inner">
+
+            <div class="footer-links">
+                <a href="about.html">About</a>
+                <a href="contact.html">Contact</a>
+                <a href="faq.html">FAQ</a>
+                <a href="terms.html">Terms</a>
+                <a href="privacy.html">Privacy</a>
+            </div>
+
+            <!-- Hidden Admin Link -->
+            <div class="admin-link">
+                <a href="admin.html">Admin Login</a>
+            </div>
+
+            <p class="copyright">
+                © 2026 Mystic Design Studio. All rights reserved.
+            </p>
+
+        </div>
+    </footer>
+
+</body>
+</html>

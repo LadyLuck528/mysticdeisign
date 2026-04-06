@@ -1,0 +1,35 @@
+/* Main editor container */
+#mystic-editor {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    background: var(--mystic-bg);
+}
+
+/* Sidebar stays fixed */
+#mystic-sidebar {
+    width: 260px;
+    min-width: 260px;
+    max-width: 260px;
+    background: var(--mystic-bg-panel);
+    border-right: 1px solid var(--mystic-border);
+}
+
+/* Canvas wrapper expands fully */
+#mystic-canvas-wrapper {
+    flex: 1;
+    height: 100%;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: var(--mystic-bg-dark);
+}
+
+/* Canvas fills the wrapper */
+#mystic-canvas {
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    max-height: none;
+}

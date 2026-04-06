@@ -1,0 +1,84 @@
+/* ------------------------------------------------------------
+   EDITOR CORE LAYOUT
+------------------------------------------------------------ */
+
+#mystic-editor {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+    background: var(--mystic-bg);
+    display: flex;
+    flex-direction: row;
+}
+
+/* ------------------------------------------------------------
+   WORKSPACE AREA
+------------------------------------------------------------ */
+
+#mystic-workspace {
+    position: relative;
+    flex: 1;
+    overflow: hidden;
+    background: var(--mystic-bg);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Canvas Wrapper */
+#mystic-canvas-wrapper {
+    position: relative;
+    overflow: visible;
+    transform-origin: top left;
+    background: var(--mystic-bg-panel);
+    border: 1px solid var(--mystic-border);
+    box-shadow: var(--mystic-shadow);
+}
+
+/* Canvas Element */
+#mystic-canvas {
+    display: block;
+    background: #fff;
+}
+
+/* ------------------------------------------------------------
+   SIDEBAR + TOOLBAR ANCHORS
+------------------------------------------------------------ */
+
+#mystic-sidebar {
+    width: 260px;
+    background: var(--mystic-bg-panel);
+    border-right: 1px solid var(--mystic-border);
+    box-shadow: 4px 0 12px rgba(0,0,0,0.25);
+    z-index: 200;
+    display: flex;
+    flex-direction: column;
+}
+
+#mystic-toolbar {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    z-index: 250;
+    display: flex;
+    gap: 10px;
+}
+
+/* ------------------------------------------------------------
+   SCROLL + DRAG SAFETY
+------------------------------------------------------------ */
+
+.mystic-no-select {
+    user-select: none;
+}
+
+.mystic-no-pointer {
+    pointer-events: none;
+}
+
+.mystic-scroll-area {
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding-right: 6px;
+}

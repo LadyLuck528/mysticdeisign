@@ -1,0 +1,51 @@
+/* ------------------------------------------------------------
+   MYSTIC EDITOR THEME VARIABLES
+------------------------------------------------------------ */
+
+:root {
+    /* Core Colors */
+    --mystic-bg: #0d0a1a;
+    --mystic-bg-panel: #161225;
+    --mystic-bg-light: #1f1a33;
+
+    /* Text */
+    --mystic-text: #e8e4ff;
+    --mystic-text-dim: #b8b3d9;
+
+    /* Borders */
+    --mystic-border: #2e2942;
+
+    /* Accent Colors */
+    --mystic-accent: #7f5af0;
+    --mystic-accent-glow: rgba(127, 90, 240, 0.6);
+
+    /* Status Colors */
+    --mystic-success: #4ade80;
+    --mystic-success-glow: rgba(74, 222, 128, 0.5);
+
+    --mystic-warning: #facc15;
+    --mystic-warning-glow: rgba(250, 204, 21, 0.5);
+
+    --mystic-danger: #ef4444;
+    --mystic-danger-glow: rgba(239, 68, 68, 0.5);
+
+    /* Radiuses */
+    --mystic-radius: 6px;
+    --mystic-radius-lg: 10px;
+
+    /* Shadows */
+    --mystic-shadow: 0 0 20px rgba(0,0,0,0.35);
+
+    /* Transitions */
+    --mystic-transition: 0.15s ease;
+
+    /* Fonts */
+    --mystic-font: 'Inter', 'Segoe UI', sans-serif;
+}
+
+/* Apply Global Theme */
+body {
+    background: var(--mystic-bg);
+    color: var(--mystic-text);
+    font-family: var(--mystic-font);
+}

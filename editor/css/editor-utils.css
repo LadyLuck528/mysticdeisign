@@ -1,0 +1,108 @@
+/* ------------------------------------------------------------
+   UTILITY CLASSES (LAYOUT, SPACING, ALIGNMENT, DISPLAY)
+------------------------------------------------------------ */
+
+/* Flexbox helpers */
+.flex {
+    display: flex;
+}
+
+.flex-col {
+    display: flex;
+    flex-direction: column;
+}
+
+.flex-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.flex-between {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.flex-wrap {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+/* Alignment helpers */
+.items-center {
+    align-items: center;
+}
+
+.items-start {
+    align-items: flex-start;
+}
+
+.items-end {
+    align-items: flex-end;
+}
+
+.justify-center {
+    justify-content: center;
+}
+
+.justify-between {
+    justify-content: space-between;
+}
+
+.justify-end {
+    justify-content: flex-end;
+}
+
+/* Spacing utilities */
+.mt-5 { margin-top: 5px; }
+.mt-10 { margin-top: 10px; }
+.mt-20 { margin-top: 20px; }
+
+.mb-5 { margin-bottom: 5px; }
+.mb-10 { margin-bottom: 10px; }
+.mb-20 { margin-bottom: 20px; }
+
+.p-5 { padding: 5px; }
+.p-10 { padding: 10px; }
+.p-20 { padding: 20px; }
+
+/* Width helpers */
+.w-full { width: 100%; }
+.w-half { width: 50%; }
+.w-auto { width: auto; }
+
+/* Height helpers */
+.h-full { height: 100%; }
+.h-auto { height: auto; }
+
+/* Display helpers */
+.hidden { display: none; }
+.block { display: block; }
+.inline-block { display: inline-block; }
+
+/* Text helpers */
+.text-center { text-align: center; }
+.text-right { text-align: right; }
+.text-small { font-size: 12px; }
+.text-large { font-size: 18px; }
+
+/* Border helpers */
+.rounded { border-radius: var(--mystic-radius); }
+.rounded-lg { border-radius: var(--mystic-radius-lg); }
+
+/* Shadow helpers */
+.shadow { box-shadow: var(--mystic-shadow); }
+
+/* Cursor helpers */
+.cursor-pointer { cursor: pointer; }
+.cursor-default { cursor: default; }
+
+/* Overflow helpers */
+.overflow-hidden { overflow: hidden; }
+.overflow-auto { overflow: auto; }
+
+/* Opacity helpers */
+.opacity-50 { opacity: 0.5; }
+.opacity-75 { opacity: 0.75; }
+.opacity-100 { opacity: 1; }

@@ -1,0 +1,23 @@
+name = "mysticdesign-api"
+main = "functions/api/index.js"
+compatibility_date = "2024-04-01"
+compatibility_flags = ["nodejs_compat"]
+
+# Route your Worker under /api/*
+routes = [
+  { pattern = "https://mysticdesign.pages.dev/api/*" }
+]
+
+# Bind your R2 bucket
+[[r2_buckets]]
+binding = "UPLOADS"
+bucket_name = "mysticdesign"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "mysticdesign"
+database_id = "d1d98ee3-f2b3-4b88-a28a-bba65da32ef8"
+
+# Environment variables
+[vars]
+PUBLIC_URL = "https://3e2b146abd5ec58f4de9391615044873.r2.cloudflarestorage.com/mysticdesign"
