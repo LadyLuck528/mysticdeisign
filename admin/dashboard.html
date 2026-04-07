@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Mystic Design Admin Dashboard</title>
+  <style>
+    body {
+      font-family: system-ui, sans-serif;
+      background: #05030a;
+      color: #f5e9ff;
+      min-height: 100vh;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+    }
+    header {
+      padding: 1rem 1.5rem;
+      background: #12091f;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    main {
+      padding: 1.5rem;
+    }
+    button {
+      padding: 0.4rem 0.8rem;
+      border-radius: 6px;
+      border: none;
+      background: #ef4444;
+      color: white;
+      cursor: pointer;
+      font-size: 0.85rem;
+    }
+    button:hover {
+      background: #dc2626;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div>Mystic Design Admin</div>
+    <button id="logoutBtn">Logout</button>
+  </header>
+  <main>
+    <h1>Welcome, Creator ✨</h1>
+    <p>You are logged in with a valid admin session.</p>
+    <p>From here, we can later plug in:</p>
+    <ul>
+      <li>Blueprint orders</li>
+      <li>AI job logs</li>
+      <li>Customer uploads</li>
+      <li>R2 file browser</li>
+    </ul>
+  </main>
+
+  <script>
+    function isTokenValid() {
+      const token = localStorage.getItem("mystic_admin_token");
+      const exp = localStorage.getItem("mystic_admin_exp");
+
+      if (!token || !exp) return false;
+
+      const now = Math.floor(Date.now() / 1000);
+      return now < Number(exp);
+    }
+
+    if (!isTokenValid()) {
+      // No valid token → back to login
+      window.location.href = "/admin/login.html";
+    }
+
+    document.getElementById("logoutBtn").addEventListener("click", () => {
+      localStorage.removeItem("mystic_admin_token");
+      localStorage.removeItem("mystic_admin_exp");
+      window.location.href = "/admin/login.html";
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Mystic Design Admin Login</title>
+  <style>
+    body {
+      font-family: system-ui, sans-serif;
+      background: #0b0614;
+      color: #f5e9ff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+    }
+    .card {
+      background: #1a1028;
+      padding: 2rem;
+      border-radius: 12px;
+      width: 320px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+    }
+    h1 {
+      font-size: 1.4rem;
+      margin-bottom: 1rem;
+    }
+    label {
+      display: block;
+      margin-top: 0.75rem;
+      font-size: 0.85rem;
+    }
+    input {
+      width: 100%;
+      padding: 0.5rem;
+      margin-top: 0.25rem;
+      border-radius: 6px;
+      border: 1px solid #4b2b7a;
+      background: #12091f;
+      color: #f5e9ff;
+    }
+    button {
+      margin-top: 1rem;
+      width: 100%;
+      padding: 0.6rem;
+      border-radius: 6px;
+      border: none;
+      background: #8b5cf6;
+      color: white;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #7c3aed;
+    }
+    .error {
+      margin-top: 0.5rem;
+      color: #f97373;
+      font-size: 0.8rem;
+      min-height: 1em;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>Mystic Design Admin</h1>
+    <label>Email</label>
+    <input type="email" id="email" autocomplete="email" />
+
+    <label>Password</label>
+    <input type="password" id="password" autocomplete="current-password" />
+
+    <button id="loginBtn">Login</button>
+    <div class="error" id="error"></div>
+  </div>
+
+  <script>
+    const btn = document.getElementById("loginBtn");
+    const errorEl = document.getElementById("error");
+
+    btn.addEventListener("click", async () => {
+      errorEl.textContent = "";
+
+      const email = document.getElementById("email").value.trim();
+      const password = document.getElementById("password").value.trim();
+
+      if (!email || !password) {
+        errorEl.textContent = "Please enter email and password.";
+        return;
+      }
+
+      try {
+        const res = await fetch("/functions/admin-login", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email, password }),
+        });
+
+        const data = await res.json();
+
+        if (!res.ok) {
+          errorEl.textContent = data.error || "Login failed.";
+          return;
+        }
+
+        // Save token + exp in localStorage
+        localStorage.setItem("mystic_admin_token", data.token);
+        localStorage.setItem("mystic_admin_exp", data.exp);
+
+        // Go to dashboard
+        window.location.href = "/admin/dashboard.html";
+      } catch (e) {
+        errorEl.textContent = "Network error. Try again.";
+      }
+    });
+  </script>
+</body>
+</html>

@@ -8,12 +8,15 @@
 }
 
 /* --------------------------------------------------
+/* --------------------------------------------------
    BASE STYLES
 -------------------------------------------------- */
 body {
+    background: url("../assets/backgrounds/Witchcraft table sce.png") no-repeat center center fixed;
+    background-size: cover;
+
     font-family: 'Poppins', sans-serif;
     color: #ffffff;
-    background: #000000;
     line-height: 1.6;
     overflow-x: hidden;
 }
@@ -25,22 +28,19 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* --------------------------------------------------
-   COSMIC BACKGROUND OVERLAY
--------------------------------------------------- */
-.background-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: radial-gradient(circle at center, #1a0033, #000000 70%);
-    opacity: 0.85;
-    z-index: -1;
-}
-/* --------------------------------------------------
    SECTION 2 — GLOBAL LAYOUT FOUNDATION
    Structure, spacing, containers, wrappers
 -------------------------------------------------- */
+
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.wrapper {
+    padding: 20px;
+}
 
 /* Universal page wrapper */
 .page-wrapper {
@@ -227,6 +227,68 @@ a:hover {
     h3 { font-size: 1.6rem; }
     p  { font-size: 0.95rem; }
 }
+/* --------------------------------------------------
+   SECTION 4 — NAVIGATION
+   Logo, centered layout, mystical hover effects
+-------------------------------------------------- */
+
+.nav {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px 0;
+    background: transparent;
+}
+
+.logo-img {
+    height: 90px;
+    width: auto;
+    display: block;
+    filter: drop-shadow(0 0 10px rgba(180, 90, 255, 0.8));
+    margin-bottom: 10px;
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+    gap: 25px;
+    padding: 0;
+    margin: 0;
+}
+
+.nav-links a {
+    color: #fff;
+    font-size: 1.2rem;
+    text-decoration: none;
+    font-weight: 500;
+    letter-spacing: 1px;
+    position: relative;
+    transition: 0.3s ease;
+}
+
+.nav-links a::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -5px;
+    width: 0%;
+    height: 2px;
+    background: linear-gradient(90deg, #b45aff, #ffffff, #b45aff);
+    box-shadow: 0 0 8px #b45aff;
+    transition: width 0.3s ease;
+}
+
+.nav-links a:hover::after {
+    width: 100%;
+}
+
+.nav-links a:hover {
+    color: #d9b3ff;
+    text-shadow: 0 0 8px #b45aff;
+}
+
 /* --------------------------------------------------
    SECTION 4 — TYPOGRAPHY & GLOW UTILITIES
 -------------------------------------------------- */
@@ -524,13 +586,7 @@ input[type="radio"] {
     text-shadow: 0 0 6px var(--accent-light);
 }
 
-/* Mobile menu toggle */
-.nav-toggle {
-    display: none;
-    font-size: 1.6rem;
-    cursor: pointer;
-    color: var(--text);
-}
+
 
 /* Sidebar (for admin/editor) */
 .sidebar {
@@ -573,7 +629,6 @@ input[type="radio"] {
     text-transform: uppercase;
     letter-spacing: 1px;
 }
-
 /* Mobile responsive behavior */
 @media (max-width: 900px) {
     .nav-links {
@@ -601,26 +656,41 @@ input[type="radio"] {
 
     /* Sidebar collapses on mobile */
     .sidebar {
+        position: fixed;
+        left: -260px;
+        transition: 0.3s ease;
+    }
+
+    .sidebar.open {
+        left: 0;
+    }
+} /* END @media (max-width: 900px) */
+
+/* END OF SECTION 8 */
+
+
+/* --------------------------------------------------
 /* --------------------------------------------------
    SECTION 9 — ANIMATIONS, EFFECTS & MYSTICAL MOTION
+   Glows, fades, pulses, shimmer, float effects
 -------------------------------------------------- */
 
 /* Smooth fade-in */
 .fade-in {
     opacity: 0;
-    animation: fadeIn 0.6s ease forwards;
+    animation: fadeIn 0.8s ease forwards;
 }
 
 @keyframes fadeIn {
     from { opacity: 0; }
-    to   { opacity: 1; }
+    to { opacity: 1; }
 }
 
-/* Slide up */
+/* Slide-up fade */
 .slide-up {
     opacity: 0;
     transform: translateY(20px);
-    animation: slideUp 0.6s ease forwards;
+    animation: slideUp 0.8s ease forwards;
 }
 
 @keyframes slideUp {
@@ -630,24 +700,35 @@ input[type="radio"] {
     }
 }
 
-/* Pulse glow (great for buttons or magical elements) */
+/* Soft glow pulse */
 .glow-pulse {
-    animation: glowPulse 2.4s ease-in-out infinite;
+    animation: glowPulse 2.5s ease-in-out infinite;
 }
 
 @keyframes glowPulse {
     0% {
-        box-shadow: 0 0 6px var(--accent);
+        text-shadow: 0 0 6px var(--accent-light);
     }
     50% {
-        box-shadow: 0 0 18px var(--accent-light);
+        text-shadow: 0 0 14px var(--accent-light), 0 0 28px var(--accent);
     }
     100% {
-        box-shadow: 0 0 6px var(--accent);
+        text-shadow: 0 0 6px var(--accent-light);
     }
 }
 
-/* Shimmer effect (for loading states or mystical highlights) */
+/* Button hover pulse */
+.btn-pulse:hover {
+    animation: btnPulse 0.6s ease;
+}
+
+@keyframes btnPulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.06); }
+    100% { transform: scale(1); }
+}
+
+/* Shimmer effect (for buttons, cards, images) */
 .shimmer {
     position: relative;
     overflow: hidden;
@@ -657,68 +738,49 @@ input[type="radio"] {
     content: "";
     position: absolute;
     top: 0;
-    left: -150%;
-    width: 50%;
+    left: -100%;
+    width: 60%;
     height: 100%;
     background: linear-gradient(
         120deg,
         transparent,
-        rgba(255,255,255,0.4),
+        rgba(255,255,255,0.25),
         transparent
     );
-    animation: shimmerMove 1.8s infinite;
+    animation: shimmerMove 2s infinite;
 }
 
 @keyframes shimmerMove {
-    0%   { left: -150%; }
-    100% { left: 150%; }
+    0% { left: -100%; }
+    100% { left: 120%; }
 }
 
-/* Sparkle pop (subtle magical pop on hover) */
-.sparkle-pop:hover {
-    animation: sparklePop 0.4s ease;
+/* Floating animation (for icons, stars, elements) */
+.float {
+    animation: float 4s ease-in-out infinite;
 }
 
-@keyframes sparklePop {
-    0%   { transform: scale(1); }
-    50%  { transform: scale(1.06); }
-    100% { transform: scale(1); }
+@keyframes float {
+    0% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+    100% { transform: translateY(0); }
 }
 
-/* Rotate gently (for icons or mystical symbols) */
+/* Slow rotate (for mystical symbols) */
 .rotate-slow {
     animation: rotateSlow 12s linear infinite;
 }
 
 @keyframes rotateSlow {
     from { transform: rotate(0deg); }
-    to   { transform: rotate(360deg); }
+    to { transform: rotate(360deg); }
 }
 
-/* Fade in with slight scale */
-.fade-scale {
-    opacity: 0;
-    transform: scale(0.96);
-    animation: fadeScale 0.5s ease forwards;
-}
-
-@keyframes fadeScale {
-    to {
-        opacity: 1;
-        transform: scale(1);
-    }
-}
-
-/* Hover float */
-.float-hover:hover {
-    transform: translateY(-4px);
-    transition: 0.25s ease;
-}
-
-/* Universal smooth transitions */
-.smooth {
-    transition: 0.25s ease;
-}
+/* Fade-in delayed utilities */
+.delay-1 { animation-delay: 0.2s; }
+.delay-2 { animation-delay: 0.4s; }
+.delay-3 { animation-delay: 0.6s; }
+.delay-4 { animation-delay: 0.8s; }
 /* --------------------------------------------------
    SECTION 10 — MODALS, POPUPS & OVERLAYS
 -------------------------------------------------- */
@@ -3291,4 +3353,660 @@ figcaption {
     opacity: 0;
     transform: translateY(20px);
     transition: 0.35s ease;
+}
+/* --------------------------------------------------
+   SECTION 26 — CARDS & PRODUCT GRID
+   Product cards, layout, hover effects
+-------------------------------------------------- */
+
+/* Grid container */
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 2rem;
+    padding: 2rem 0;
+}
+
+/* Product card */
+.card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 0 10px rgba(0,0,0,0.05);
+    transition: 0.3s ease;
+    cursor: pointer;
+    position: relative;
+}
+
+/* Hover glow */
+.card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 0 14px var(--accent-light);
+    border-color: var(--accent);
+}
+
+/* Product image */
+.card img {
+    width: 100%;
+    height: 240px;
+    object-fit: cover;
+    display: block;
+}
+
+/* Card content */
+.card-content {
+    padding: 1.2rem;
+}
+
+/* Product title */
+.card-title {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 0.5rem;
+}
+
+/* Product description */
+.card-desc {
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    margin-bottom: 1rem;
+}
+
+/* Price */
+.card-price {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--accent);
+    margin-bottom: 1rem;
+}
+
+/* Add to cart button */
+.card .btn-primary {
+    width: 100%;
+    padding: 0.8rem;
+    font-size: 1rem;
+    border-radius: 6px;
+    background: var(--accent);
+    color: #ffffff;
+    font-weight: 600;
+    transition: 0.3s ease;
+}
+
+.card .btn-primary:hover {
+    background: var(--accent-light);
+    box-shadow: 0 0 10px var(--accent-light);
+}
+
+/* Responsive tweaks */
+@media (max-width: 600px) {
+    .card img {
+        height: 200px;
+    }
+}
+/* --------------------------------------------------
+   SECTION 27 — MYSTIC EDITOR UI
+-------------------------------------------------- */
+
+/* Page wrapper */
+.editor-page {
+    display: flex;
+    flex-direction: column;
+    min-height: calc(100vh - 80px);
+    background:
+        radial-gradient(circle at top, rgba(120,90,255,0.22), transparent 55%),
+        radial-gradient(circle at bottom, rgba(0,0,0,0.9), #05030a);
+    color: #f5f2ff;
+}
+
+/* Top bar */
+.editor-topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 20px;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    background: rgba(5,3,15,0.95);
+    backdrop-filter: blur(14px);
+    position: sticky;
+    top: 0;
+    z-index: 20;
+}
+
+.editor-topbar-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.editor-title {
+    font-size: 0.95rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: #e2d7ff;
+    opacity: 0.9;
+}
+
+.editor-topbar-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Mode toggle */
+.editor-mode-toggle {
+    display: inline-flex;
+    align-items: center;
+    border-radius: 999px;
+    border: 1px solid rgba(255,255,255,0.18);
+    overflow: hidden;
+    background: radial-gradient(circle at top, rgba(40,25,90,0.9), rgba(10,8,25,0.95));
+    box-shadow: 0 0 18px rgba(120,90,255,0.35);
+}
+
+.editor-mode-toggle button {
+    border: none;
+    background: transparent;
+    color: rgba(255,255,255,0.7);
+    padding: 6px 16px;
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    cursor: pointer;
+    transition: background 0.25s ease, color 0.25s ease, transform 0.15s ease;
+}
+
+.editor-mode-toggle button.active {
+    background: linear-gradient(135deg, #a88bff, #f6bfff);
+    color: #140821;
+    transform: translateY(-1px);
+}
+
+/* Main body layout */
+.editor-body {
+    flex: 1;
+    display: grid;
+    grid-template-columns: 260px minmax(0, 1fr) 300px;
+    gap: 18px;
+    padding: 18px 20px 26px;
+}
+
+/* Left sidebar (simple tools) */
+.editor-sidebar {
+    background: radial-gradient(circle at top, rgba(60,40,120,0.55), rgba(10,8,25,0.98));
+    border-radius: 18px;
+    border: 1px solid rgba(255,255,255,0.12);
+    box-shadow: 0 22px 60px rgba(0,0,0,0.85);
+    padding: 14px 14px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.editor-sidebar-header {
+    font-size: 0.78rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.7);
+    opacity: 0.9;
+}
+
+/* Tool groups */
+.editor-tool-group {
+    background: rgba(15,10,40,0.96);
+    border-radius: 14px;
+    border: 1px solid rgba(255,255,255,0.08);
+    padding: 10px 10px 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.editor-tool-group-label {
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: rgba(230,220,255,0.8);
+    opacity: 0.9;
+}
+
+.editor-tool-group input[type="file"],
+.editor-tool-group input[type="text"],
+.editor-tool-group input[type="color"] {
+    width: 100%;
+    font-size: 0.8rem;
+}
+
+/* Generic inputs */
+.editor-tool-group input[type="text"],
+.editor-input,
+.editor-select {
+    padding: 7px 9px;
+    border-radius: 9px;
+    border: 1px solid rgba(255,255,255,0.18);
+    background: rgba(5,3,18,0.96);
+    color: #f5f2ff;
+    font-size: 0.8rem;
+    outline: none;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.editor-tool-group input[type="text"]:focus,
+.editor-input:focus,
+.editor-select:focus {
+    border-color: #c9a8ff;
+    box-shadow: 0 0 0 1px rgba(201,168,255,0.6);
+}
+
+/* Buttons */
+.editor-tool-btn,
+.sidebar-btn,
+.btn-primary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 7px 14px;
+    border-radius: 999px;
+    border: 1px solid rgba(255,255,255,0.18);
+    background: radial-gradient(circle at top, rgba(120,90,255,0.7), rgba(40,20,90,0.98));
+    color: #ffffff;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    cursor: pointer;
+    transition: transform 0.15s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+
+.editor-tool-btn:hover,
+.sidebar-btn:hover,
+.btn-primary:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 0 18px rgba(160,120,255,0.7);
+    background: radial-gradient(circle at top, rgba(160,120,255,0.9), rgba(60,30,120,1));
+}
+
+.sidebar-btn.primary {
+    background: linear-gradient(135deg, #ffb6ff, #b794ff);
+    color: #1a0824;
+}
+
+/* CTA area */
+.editor-cta {
+    margin-top: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.editor-cta .btn-primary {
+    width: 100%;
+}
+
+.editor-secondary-link {
+    font-size: 0.78rem;
+    text-align: center;
+    color: rgba(230,220,255,0.8);
+    text-decoration: underline;
+    cursor: pointer;
+    opacity: 0.85;
+}
+
+.editor-secondary-link:hover {
+    opacity: 1;
+}
+
+/* Center canvas area */
+.editor-canvas-wrap {
+    position: relative;
+    background: radial-gradient(circle at top, rgba(255,255,255,0.06), rgba(5,3,15,0.98));
+    border-radius: 22px;
+    border: 1px solid rgba(255,255,255,0.12);
+    box-shadow: 0 26px 70px rgba(0,0,0,0.9);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.editor-canvas-inner {
+    position: relative;
+    width: 100%;
+    max-width: 820px;
+    aspect-ratio: 16 / 9;
+    margin: 22px;
+    background: radial-gradient(circle at center, rgba(0,0,0,0.9), #020008);
+    border-radius: 18px;
+    border: 1px solid rgba(255,255,255,0.08);
+    overflow: hidden;
+}
+
+/* White design canvas */
+.design-canvas {
+    position: absolute;
+    inset: 50%;
+    transform: translate(-50%, -50%);
+    width: 72%;
+    height: auto;
+    background: #ffffff;
+    border-radius: 10px;
+    box-shadow:
+        0 0 0 1px rgba(0,0,0,0.12),
+        0 18px 40px rgba(0,0,0,0.75),
+        0 0 40px rgba(255,255,255,0.35);
+}
+
+/* 3D model viewer */
+.model-viewer {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none; /* JS can toggle if interactive */
+}
+
+/* Mask overlay */
+.mask-overlay {
+    position: absolute;
+    inset: 0;
+    object-fit: contain;
+    pointer-events: none;
+    opacity: 0.9;
+}
+
+/* Canvas top tools */
+.editor-canvas-topbar {
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: inline-flex;
+    gap: 8px;
+    padding: 6px 10px;
+    border-radius: 999px;
+    background: rgba(5,3,15,0.95);
+    border: 1px solid rgba(255,255,255,0.16);
+    backdrop-filter: blur(12px);
+    box-shadow: 0 12px 30px rgba(0,0,0,0.8);
+    z-index: 5;
+}
+
+.editor-canvas-topbar button {
+    border: none;
+    background: transparent;
+    color: rgba(245,240,255,0.9);
+    font-size: 0.78rem;
+    padding: 4px 10px;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: background 0.2s ease, color 0.2s ease;
+}
+
+.editor-canvas-topbar button:hover {
+    background: rgba(255,255,255,0.12);
+    color: #ffffff;
+}
+
+/* Drawing layer */
+.editor-draw-layer {
+    position: absolute;
+    inset: 0;
+    pointer-events: none; /* JS toggles when drawing */
+}
+
+/* When drawing mode is active, JS adds .drawing-active */
+.editor-canvas-inner.drawing-active .editor-draw-layer {
+    pointer-events: auto;
+    cursor: crosshair;
+}
+
+/* Grid overlay */
+.editor-grid-overlay {
+    position: absolute;
+    inset: 0;
+    background-image:
+        linear-gradient(rgba(255,255,255,0.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.06) 1px, transparent 1px);
+    background-size: 24px 24px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s ease;
+}
+
+.editor-grid-overlay.visible {
+    opacity: 1;
+}
+
+/* Right panels (Pro mode) */
+.editor-panels {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+/* Simple vs Pro visibility */
+.editor-page.simple-mode .editor-panels {
+    display: none;
+}
+
+.editor-page.pro-mode .editor-panels {
+    display: flex;
+}
+
+/* Panel container */
+.editor-panel {
+    background: radial-gradient(circle at top, rgba(70,40,130,0.7), rgba(10,8,25,0.98));
+    border-radius: 16px;
+    border: 1px solid rgba(255,255,255,0.16);
+    box-shadow: 0 22px 60px rgba(0,0,0,0.9);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Panel header */
+.editor-panel-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 11px;
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    background: linear-gradient(135deg, rgba(160,120,255,0.7), rgba(40,20,90,0.98));
+    color: #fdfbff;
+}
+
+.editor-panel-toggle {
+    border: none;
+    background: transparent;
+    color: rgba(245,240,255,0.9);
+    cursor: pointer;
+    font-size: 0.9rem;
+}
+
+/* Panel body */
+.editor-panel-body {
+    padding: 10px 11px 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    max-height: 240px;
+    overflow: auto;
+    font-size: 0.8rem;
+}
+
+/* Collapsed state (JS adds .collapsed) */
+.editor-panel.collapsed .editor-panel-body {
+    display: none;
+}
+
+/* Slider rows */
+.editor-slider-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    font-size: 0.8rem;
+}
+
+.editor-slider-row input[type="range"] {
+    flex: 1;
+}
+
+/* Layer list */
+.layer-list {
+    min-height: 60px;
+    max-height: 160px;
+    overflow: auto;
+    padding: 6px;
+    border-radius: 10px;
+    border: 1px dashed rgba(255,255,255,0.18);
+    background: rgba(5,3,18,0.9);
+    font-size: 0.78rem;
+}
+
+/* Responsive */
+@media (max-width: 1100px) {
+    .editor-body {
+        grid-template-columns: 240px minmax(0, 1fr);
+        grid-template-rows: auto auto;
+        grid-template-areas:
+            "sidebar canvas"
+            "panels  canvas";
+    }
+
+    .editor-sidebar {
+        grid-area: sidebar;
+    }
+
+    .editor-canvas-wrap {
+        grid-area: canvas;
+    }
+
+    .editor-panels {
+        grid-area: panels;
+        flex-direction: row;
+        overflow-x: auto;
+    }
+
+    .editor-panel {
+        min-width: 240px;
+    }
+}
+
+@media (max-width: 800px) {
+    .editor-body {
+        grid-template-columns: minmax(0, 1fr);
+        grid-template-rows: auto auto auto;
+        grid-template-areas:
+            "canvas"
+            "sidebar"
+            "panels";
+    }
+
+    .editor-canvas-wrap {
+        order: 1;
+    }
+
+    .editor-sidebar {
+        order: 2;
+    }
+
+    .editor-panels {
+        order: 3;
+        flex-direction: column;
+    }
+}/* --------------------------------------------------
+   MYSTIC PURPLE GLOW BOOST
+-------------------------------------------------- */
+
+:root {
+    --mystic-purple: #c38bff;
+    --mystic-purple-light: #e7b3ff;
+    --mystic-purple-deep: #7a2bcb;
+    --mystic-purple-glow: rgba(195,139,255,0.55);
+    --mystic-purple-glow-strong: rgba(195,139,255,0.85);
+}
+
+/* Stronger cosmic background */
+.editor-page {
+    background:
+        radial-gradient(circle at top, rgba(195,139,255,0.25), transparent 55%),
+        radial-gradient(circle at bottom, rgba(20,0,40,0.95), #050012);
+}
+
+/* Glow around panels */
+.editor-sidebar,
+.editor-panel,
+.editor-canvas-wrap {
+    box-shadow:
+        0 0 22px var(--mystic-purple-glow),
+        0 0 60px rgba(0,0,0,0.9);
+    border-color: rgba(255,255,255,0.18);
+}
+
+/* Glow on buttons */
+.editor-tool-btn,
+.sidebar-btn,
+.btn-primary {
+    box-shadow:
+        0 0 14px var(--mystic-purple-glow),
+        inset 0 0 12px rgba(255,255,255,0.12);
+    background: linear-gradient(135deg, var(--mystic-purple), var(--mystic-purple-light));
+}
+
+.editor-tool-btn:hover,
+.sidebar-btn:hover,
+.btn-primary:hover {
+    box-shadow:
+        0 0 22px var(--mystic-purple-glow-strong),
+        inset 0 0 14px rgba(255,255,255,0.2);
+}
+
+/* Glow on topbar toggle */
+.editor-mode-toggle {
+    box-shadow: 0 0 22px var(--mystic-purple-glow);
+    background: linear-gradient(135deg, rgba(90,30,160,0.9), rgba(40,10,80,0.95));
+}
+
+.editor-mode-toggle button.active {
+    background: linear-gradient(135deg, var(--mystic-purple), var(--mystic-purple-light));
+    color: #1a0824;
+}
+
+/* Glow on canvas */
+.design-canvas {
+    box-shadow:
+        0 0 0 2px rgba(255,255,255,0.4),
+        0 0 40px var(--mystic-purple-glow),
+        0 18px 40px rgba(0,0,0,0.75);
+}
+
+/* Glow on grid overlay */
+.editor-grid-overlay.visible {
+    opacity: 1;
+    box-shadow: inset 0 0 40px var(--mystic-purple-glow);
+}
+/* FORCE SIDEBAR TO PURPLE */
+.editor-sidebar {
+    background: radial-gradient(circle at top, rgba(120,40,160,0.75), rgba(40,10,80,0.98));
+    border-color: rgba(255,255,255,0.18);
+    box-shadow:
+        0 0 22px rgba(195,139,255,0.55),
+        0 0 60px rgba(0,0,0,0.9);
+}
+
+/* Make Add Text input font black */
+#textInput {
+    color: #000000 !important;
+}
+/* Make the design canvas fill the black box */
+.design-canvas {
+    width: 95% !important;
+    height: auto !important;
+    max-height: 95% !important;
+    border-radius: 12px;
 }

@@ -1340,4 +1340,19 @@ body.mystic-theme-light #mystic-grid-overlay {
     .mystic-toast {
         min-width: 180px;
     }
+}.ai-input {
+    width: 100%;
+    padding: 6px;
+    margin-top: 4px;
+    border-radius: 6px;
+    border: 1px solid #4b2b7a;
+    background: #12091f;
+    color: #f5e9ff;
+}
+
+.ai-status {
+    margin-top: 6px;
+    font-size: 0.8rem;
+    min-height: 1em;
+    color: #c9a7ff;
 }
