@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Order Details</title>
+  <style>
+    body {
+      background: #0d0d0d;
+      color: white;
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+    h1 {
+      color: #ff00ff;
+      text-shadow: 0 0 10px #ff00ff;
+    }
+    .box {
+      background: #1a1a1a;
+      padding: 20px;
+      border-radius: 10px;
+      margin-top: 20px;
+    }
+    input[type="file"] {
+      margin-top: 10px;
+    }
+    button {
+      margin-top: 15px;
+      padding: 10px 20px;
+      background: #ff00ff;
+      border: none;
+      border-radius: 5px;
+      color: white;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #cc00cc;
+    }
+  </style>
+</head>
+<body>
+
+<h1>Order Details</h1>
+<div id="orderBox" class="box">
+  Loading order...
+</div>
+
+<div class="box">
+  <h3>Upload Customer Artwork</h3>
+  <input type="file" id="file">
+  <button onclick="uploadFile()">Upload</button>
+  <p id="uploadMsg"></p>
+</div>
+
+<script>
+const params = new URLSearchParams(window.location.search)
+const orderId = params.get('id')
+
+async function loadOrder() {
+  const token = localStorage.getItem('token')
+  if (!token) {
+    window.location.href = "/admin/login.html"
+    return
+  }
+
+  const res = await fetch('/admin/orders', {
+    headers: { 'Authorization': 'Bearer ' + token }
+  })
+
+  const orders = await res.json()
+  const order = orders.find(o => o.order_id === orderId)
+
+  if (!order) {
+    document.getElementById('orderBox').innerHTML = "Order not found."
+    return
+  }
+
+  document.getElementById('orderBox').innerHTML = `
+    <p><strong>Order ID:</strong> ${order.order_id}</p>
+    <p><strong>Email:</strong> ${order.email}</p>
+    <p><strong>Amount:</strong> $${(order.amount / 100).toFixed(2)}</p>
+    <p><strong>Date:</strong> ${order.created_at}</p>
+  `
+}
+
+async function uploadFile() {
+  const file = document.getElementById('file').files[0]
+  if (!file) {
+    document.getElementById('uploadMsg').innerText = "Please select a file."
+    return
+  }
+
+  const form = new FormData()
+  form.append('file', file)
+  form.append('orderId', orderId)
+
+  const res = await fetch('/upload', {
+    method: 'POST',
+    body: form
+  })
+
+  const data = await res.json()
+
+  if (data.success) {
+    document.getElementById('uploadMsg').innerText = "Upload successful!"
+  } else {
+    document.getElementById('uploadMsg').innerText = "Upload failed."
+  }
+}
+
+loadOrder()
+</script>
+
+</body>
+</html>

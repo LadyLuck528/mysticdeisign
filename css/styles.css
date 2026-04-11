@@ -1,0 +1,297 @@
+/* ------------------------------
+   MYSTIC DESIGN — BASE THEME
+   (Step 2: Core Visual Identity)
+------------------------------ */
+
+body {
+    margin: 0;
+    padding: 0;
+    background: #0b0a10; /* deep cosmic black-purple */
+    color: #e4d9ff; /* soft mystical lavender */
+    font-family: 'Segoe UI', sans-serif;
+}
+
+/* HERO SECTION */
+#hero {
+    text-align: center;
+    padding: 120px 20px;
+    background: radial-gradient(circle at center, #3a1f6b, #0b0a10 70%);
+}
+
+#hero h1 {
+    font-size: 3rem;
+    margin-bottom: 10px;
+    color: #caaaff;
+}
+
+#hero p {
+    font-size: 1.2rem;
+    opacity: 0.8;
+}
+
+#hero button {
+    margin-top: 20px;
+    padding: 12px 28px;
+    background: #6a3bdc;
+    border: none;
+    border-radius: 6px;
+    color: white;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+/* THREE PILLARS */
+#pillars {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    padding: 80px 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.pillar {
+    background: #1a1525;
+    padding: 30px 40px;
+    border-radius: 10px;
+    text-align: center;
+    font-size: 1.3rem;
+    flex: 1;
+    max-width: 300px;
+}
+
+/* TOOLS PREVIEW */
+#tools {
+    padding: 80px 20px;
+    text-align: center;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.tool-card {
+    background: #1a1525;
+    margin: 15px auto;
+    padding: 25px;
+    width: 100%;
+    max-width: 500px;
+    border-radius: 10px;
+    font-size: 1.1rem;
+}
+
+/* FEATURED PRODUCTS */
+#featured {
+    padding: 80px 20px;
+    text-align: center;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.product-card {
+    background: #1a1525;
+    margin: 15px auto;
+    padding: 25px;
+    width: 100%;
+    max-width: 500px;
+    border-radius: 10px;
+    font-size: 1.1rem;
+}
+
+/* FOOTER */
+footer {
+    text-align: center;
+    padding: 20px;
+    opacity: 0.6;
+}
+/* GLOW EFFECTS */
+.pillar, .tool-card, .product-card {
+    box-shadow: 0 0 20px rgba(138, 73, 255, 0.15);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.pillar:hover,
+.tool-card:hover,
+.product-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 0 30px rgba(168, 93, 255, 0.35);
+}
+#hero {
+    background: radial-gradient(circle at center, #4b2a88, #0b0a10 75%);
+    box-shadow: 0 0 60px rgba(120, 60, 255, 0.25) inset;
+}
+#hero button {
+    background: linear-gradient(135deg, #7a3fff, #4b2a88);
+    box-shadow: 0 0 15px rgba(140, 80, 255, 0.4);
+    transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+#hero button:hover {
+    box-shadow: 0 0 25px rgba(160, 90, 255, 0.7);
+    transform: translateY(-3px);
+}
+section {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+html {
+    scroll-behavior: smooth;
+}
+/* GLOBAL FADE-IN */
+body {
+    animation: fadeIn 1.2s ease forwards;
+    opacity: 0;
+}
+
+@keyframes fadeIn {
+    to { opacity: 1; }
+}
+/* HERO FLOAT ANIMATION */
+#hero h1, #hero p, #hero button {
+    animation: floatUp 1.4s ease forwards;
+    opacity: 0;
+}
+
+@keyframes floatUp {
+    0% { opacity: 0; transform: translateY(20px); }
+    100% { opacity: 1; transform: translateY(0); }
+}
+/* PARALLAX EFFECT */
+#hero {
+    background-attachment: fixed;
+}
+/* CARD FADE-UP ANIMATION */
+.pillar, .tool-card, .product-card {
+    opacity: 0;
+    animation: fadeUp 1s ease forwards;
+}
+
+@keyframes fadeUp {
+    0% { opacity: 0; transform: translateY(25px); }
+    100% { opacity: 1; transform: translateY(0); }
+}
+.pillar:nth-child(1) { animation-delay: 0.2s; }
+.pillar:nth-child(2) { animation-delay: 0.35s; }
+.pillar:nth-child(3) { animation-delay: 0.5s; }
+
+.tool-card:nth-child(2) { animation-delay: 0.2s; }
+.tool-card:nth-child(3) { animation-delay: 0.35s; }
+.tool-card:nth-child(4) { animation-delay: 0.5s; }
+.tool-card:nth-child(5) { animation-delay: 0.65s; }
+
+.product-card:nth-child(2) { animation-delay: 0.2s; }
+.product-card:nth-child(3) { animation-delay: 0.35s; }
+/* MYSTICAL ICONS */
+.icon {
+    font-size: 2rem;
+    margin-bottom: 10px;
+    color: #caaaff;
+    opacity: 0.9;
+    text-shadow: 0 0 12px rgba(160, 90, 255, 0.6);
+}
+/* CART PAGE */
+#cart-hero {
+    text-align: center;
+    padding: 80px 20px;
+    background: radial-gradient(circle at center, #4b2a88, #0b0a10 75%);
+    box-shadow: 0 0 60px rgba(120, 60, 255, 0.25) inset;
+}
+
+#cart-hero h1 {
+    font-size: 2.5rem;
+    color: #caaaff;
+}
+
+#cart-hero p {
+    opacity: 0.8;
+}
+
+/* CART LAYOUT */
+#cart-page {
+    max-width: 1200px;
+    margin: 60px auto;
+    padding: 20px;
+    display: flex;
+    gap: 40px;
+    flex-wrap: wrap;
+}
+
+/* CART ITEMS */
+.cart-list {
+    flex: 2;
+}
+
+.cart-item {
+    background: #1a1525;
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    box-shadow: 0 0 20px rgba(138, 73, 255, 0.15);
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+
+.cart-item img {
+    width: 90px;
+    height: 90px;
+    border-radius: 8px;
+    object-fit: cover;
+}
+
+.cart-item-info {
+    flex: 1;
+}
+
+.cart-item-title {
+    font-size: 1.2rem;
+    margin-bottom: 5px;
+}
+
+.cart-item-price {
+    opacity: 0.8;
+}
+
+/* CART SUMMARY */
+.cart-summary {
+    flex: 1;
+    background: #1a1525;
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(138, 73, 255, 0.15);
+}
+
+.cart-summary h2 {
+    margin-bottom: 20px;
+}
+
+.summary-line,
+.summary-total {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 12px;
+}
+
+.summary-total {
+    font-size: 1.3rem;
+    margin-top: 20px;
+    padding-top: 10px;
+    border-top: 1px solid rgba(255,255,255,0.1);
+}
+
+/* CHECKOUT BUTTON */
+.checkout-btn {
+    display: block;
+    margin-top: 25px;
+    padding: 14px;
+    text-align: center;
+    background: linear-gradient(135deg, #7a3fff, #4b2a88);
+    border-radius: 8px;
+    color: white;
+    font-size: 1.1rem;
+    cursor: pointer;
+    box-shadow: 0 0 15px rgba(140, 80, 255, 0.4);
+    transition: 0.2s ease;
+}
+
+.checkout-btn:hover {
+    box-shadow: 0 0 25px rgba(160, 90, 255, 0.7);
+    transform: translateY(-3px);
+}

@@ -6,255 +6,186 @@
     <title>Product Editor - Mystic Design Studio</title>
 
     <!-- Main CSS -->
-    <link rel="stylesheet" href="css/main.css">
+    <!-- Editor CSS -->
+<link rel="stylesheet" href="editor/css/global.css">
+<link rel="stylesheet" href="editor/css/editor.css">
+<link rel="stylesheet" href="editor/css/editor-layout.css">
+<link rel="stylesheet" href="editor/css/editor-panels.css">
+<link rel="stylesheet" href="editor/css/editor-tools.css">
+<link rel="stylesheet" href="editor/css/canvas.css">
+<link rel="stylesheet" href="editor/css/toolbar.css">
+<link rel="stylesheet" href="editor/css/sidebar.css">
+<link rel="stylesheet" href="editor/css/preview.css">
+<link rel="stylesheet" href="editor/css/animations.css">
 
     <!-- Editor Scripts -->
-    <script src="js/editor.js" defer></script>
-    <script src="js/3d-engine.js" defer></script>
-<script src="https://js.puter.com/v2/"></script>
+    <!-- Editor JS -->
+<script src="editor/js/editor.js" defer></script>
+<script src="editor/js/3d-engine.js" defer></script>
+
 
 </head>
 
-<body>
+<body class="editor-pro dark-mode">
 
     <!-- Cosmic Background -->
     <div class="background-overlay"></div>
 
-    <!-- HEADER -->
-    <header class="site-header">
-        <div class="header-inner">
+    <!-- TOP ACTION BAR -->
+    <header class="editor-topbar">
+        <div class="topbar-left">
+            <div class="editor-logo">Mystic Design Studio</div>
+        </div>
 
-            <!-- LOGO AREA -->
-            <div class="logo-area">
-                <a href="index.html">
-                    <img src="assets/logo/logo.png" alt="Mystic Design Logo" class="site-logo">
-                </a>
-            </div>
+        <div class="topbar-center">
+            <button class="topbar-btn" id="undoBtn">Undo</button>
+            <button class="topbar-btn" id="redoBtn">Redo</button>
+            <button class="topbar-btn" id="zoomInBtn">Zoom +</button>
+            <button class="topbar-btn" id="zoomOutBtn">Zoom -</button>
+            <button class="topbar-btn" id="toggleGridBtn">Grid</button>
+        </div>
 
-            <!-- NAVIGATION -->
-            <nav class="main-nav">
-                <ul>
-                    <li><a href="index.html">Home</a></li>
-                    <li><a href="shop.html">Shop</a></li>
-                    <li><a href="checkout.html">Checkout</a></li>
-                </ul>
-            </nav>
-
+        <div class="topbar-right">
+            <button id="simpleModeBtn" class="mode-btn">Simple</button>
+            <button id="proModeBtn" class="mode-btn active">Pro</button>
         </div>
     </header>
 
-    <!-- EDITOR PAGE -->
-    <section class="editor-page simple-mode">
+    <!-- MAIN EDITOR LAYOUT -->
+    <div class="editor-layout">
 
-        <!-- TOP BAR -->
-        <div class="editor-topbar">
-            <div class="editor-topbar-left">
-                <div class="editor-title">Mystic Product Editor</div>
+        <!-- LEFT TOOLBAR (ICON-BASED) -->
+        <aside class="editor-toolbar">
+
+            <button class="tool-btn" data-tool="select" title="Select">
+                🖱
+            </button>
+
+            <button class="tool-btn" data-tool="hand" title="Hand Tool">
+                ✋
+            </button>
+
+            <button class="tool-btn" data-tool="pen" title="Pen Tool">
+                ✏️
+            </button>
+
+            <button class="tool-btn" data-tool="rect" title="Rectangle">
+                🔲
+            </button>
+
+            <button class="tool-btn" data-tool="circle" title="Circle">
+                ⚪
+            </button>
+
+            <button class="tool-btn" data-tool="text" title="Add Text">
+                🔤
+            </button>
+
+            <button class="tool-btn" data-tool="upload" title="Upload Image">
+                🖼
+            </button>
+
+            <button class="tool-btn" data-tool="color" title="Color Picker">
+                🎨
+            </button>
+
+            <button class="tool-btn" data-tool="ai" title="AI Image Generator">
+                🧙
+            </button>
+
+            <button class="tool-btn" data-tool="layers" title="Layers">
+                🧩
+            </button>
+
+            <button class="tool-btn" data-tool="settings" title="Settings">
+                ⚙️
+            </button>
+
+        </aside>
+
+        <!-- CENTER CANVAS AREA -->
+        <main class="editor-canvas-area">
+
+            <!-- Canvas Wrapper -->
+            <div class="canvas-wrapper">
+
+                <!-- 3D Model Viewer -->
+                <div id="modelViewer" class="model-viewer"></div>
+
+                <!-- Mask Overlay -->
+                <img id="maskOverlay" class="mask-overlay" src="" alt="Mask Overlay">
+
+                <!-- Main Canvas -->
+                <canvas id="designCanvas" class="design-canvas"></canvas>
+
+                <!-- Drawing Layer -->
+                <canvas id="drawLayer" class="editor-draw-layer"></canvas>
+
+                <!-- Grid Overlay -->
+                <div class="editor-grid-overlay" id="gridOverlay"></div>
+
+            </div>
+        </main>
+
+        <!-- RIGHT PANELS -->
+        <aside class="editor-panels">
+
+            <!-- LAYERS PANEL -->
+            <div class="panel" id="layersPanel">
+                <div class="panel-title">Layers</div>
+                <div id="layerList" class="layer-list"></div>
             </div>
 
-            <div class="editor-topbar-actions">
-                <div class="editor-mode-toggle">
-                    <button id="simpleModeBtn" class="active">Simple</button>
-                    <button id="proModeBtn">Pro</button>
-                </div>
-            </div>
-        </div>
+            <!-- PROPERTIES PANEL -->
+            <div class="panel" id="propertiesPanel">
+                <div class="panel-title">Properties</div>
 
-        <!-- MAIN BODY -->
-        <div class="editor-body">
-
-            <!-- LEFT SIDEBAR (Simple Tools) -->
-            <aside class="editor-sidebar">
-
-                <div class="editor-sidebar-header">Tools</div>
-
-                <!-- Upload Image -->
-                <div class="editor-tool-group">
-                    <div class="editor-tool-group-label">Upload Image</div>
-                    <input type="file" id="uploadImage" accept="image/*">
-                </div>
-
-                <!-- Add Text -->
-                <div class="editor-tool-group">
-                    <div class="editor-tool-group-label">Add Text</div>
-                    <input type="text" id="textInput" placeholder="Enter text...">
-                    <button id="addTextButton" class="editor-tool-btn">Add Text</button>
-<div class="ai-panel">
-  <label for="aiPrompt">AI Image Prompt</label>
-  <input id="aiPrompt" type="text" placeholder="Describe what to create..." />
-
-  <button id="aiGenerateBtn">Generate Image</button>
-  <div id="aiStatus" class="ai-status"></div>
-</div>
-<div class="editor-tool-group">
-    <div class="editor-tool-group-label">AI Image Generator</div>
-
-    <label for="aiPrompt" class="ai-label">Prompt</label>
-    <input id="aiPrompt" type="text" placeholder="Describe what to create..." class="ai-input">
-
-    <button id="aiGenerateBtn" class="editor-tool-btn">Generate Image</button>
-
-    <div id="aiStatus" class="ai-status"></div>
-</div>
-
-                </div>
-
-                <!-- Color -->
-                <div class="editor-tool-group">
-                    <div class="editor-tool-group-label">Color</div>
+                <div class="panel-section">
+                    <label>Color</label>
                     <input type="color" id="colorPicker" value="#ffffff">
                 </div>
 
-                <!-- Layers (simple view) -->
-                <div class="editor-tool-group">
-                    <div class="editor-tool-group-label">Layers</div>
-                    <div id="layerList" class="layer-list"></div>
+                <div class="panel-section">
+                    <label>Position</label>
+                    <input type="number" id="posX" placeholder="X">
+                    <input type="number" id="posY" placeholder="Y">
                 </div>
 
-                <!-- Simple CTAs -->
-                <div class="editor-cta">
-                    <button id="addToCartBtn" class="btn-primary">Add to Cart</button>
-                    <div class="editor-secondary-link" id="continueShoppingLink">Continue Shopping</div>
+                <div class="panel-section">
+                    <label>Size</label>
+                    <input type="number" id="widthInput" placeholder="Width">
+                    <input type="number" id="heightInput" placeholder="Height">
                 </div>
 
-            </aside>
-
-            <!-- CENTER CANVAS AREA -->
-            <main class="editor-canvas-wrap">
-                <div class="editor-canvas-inner">
-
-                    <!-- Canvas Top Tools -->
-                    <div class="editor-canvas-topbar">
-                        <button id="undoBtn">Undo</button>
-                        <button id="redoBtn">Redo</button>
-                        <button id="zoomInBtn">Zoom +</button>
-                        <button id="zoomOutBtn">Zoom -</button>
-                        <button id="toggleGridBtn">Grid</button>
-                    </div>
-
-                    <!-- 3D Model Viewer -->
-                    <div id="modelViewer" class="model-viewer">
-                        <!-- 3D model will be rendered here by 3d-engine.js -->
-                    </div>
-
-                    <!-- Mask Overlay -->
-                    <img id="maskOverlay" class="mask-overlay" src="" alt="Mask Overlay">
-
-                    <!-- 2D Design Canvas -->
-                    <canvas id="designCanvas" class="design-canvas"></canvas>
-
-                    <!-- Drawing Layer (for pen/pressure drawing) -->
-                    <canvas id="drawLayer" class="editor-draw-layer"></canvas>
-
-                    <!-- Optional Grid Overlay -->
-                    <div class="editor-grid-overlay" id="gridOverlay"></div>
-
-                </div>
-            </main>
-
-            <!-- RIGHT PANELS (Pro Mode) -->
-            <aside class="editor-panels">
-
-                <!-- Product Info Panel -->
-                <div class="editor-panel">
-                    <div class="editor-panel-header">
-                        Product Info
-                        <button class="editor-panel-toggle" type="button">–</button>
-                    </div>
-                    <div class="editor-panel-body">
-                        <p><strong>Name:</strong> <span id="productName"></span></p>
-                        <p><strong>Print Method:</strong> <span id="printMethod"></span></p>
-                        <p><strong>Size:</strong> <span id="productSize"></span></p>
-                        <button id="resetDesign" class="sidebar-btn">Reset Design</button>
-                        <button id="exportDesign" class="sidebar-btn primary">Save & Continue</button>
-                    </div>
+                <div class="panel-section">
+                    <label>Mode</label>
+                    <select id="layerMode">
+                        <option value="print">Print Only</option>
+                        <option value="cut">Cut Only</option>
+                        <option value="printcut">Print & Cut</option>
+                    </select>
                 </div>
 
-                <!-- Drawing / Brush Panel -->
-                <div class="editor-panel">
-                    <div class="editor-panel-header">
-                        Brush & Drawing
-                        <button class="editor-panel-toggle" type="button">–</button>
-                    </div>
-                    <div class="editor-panel-body">
-                        <div class="editor-slider-row">
-                            <span>Size</span>
-                            <input type="range" id="brushSize" min="1" max="60" value="12">
-                        </div>
-                        <div class="editor-slider-row">
-                            <span>Opacity</span>
-                            <input type="range" id="brushOpacity" min="0" max="100" value="100">
-                        </div>
-                        <div class="editor-slider-row">
-                            <span>Smoothing</span>
-                            <input type="range" id="brushSmoothing" min="0" max="100" value="40">
-                        </div>
-                        <button id="enableDrawMode" class="editor-tool-btn">Enable Drawing</button>
-                        <button id="disableDrawMode" class="editor-tool-btn">Disable Drawing</button>
-                        <button id="clearDrawLayer" class="editor-tool-btn">Clear Drawing</button>
-                    </div>
-                </div>
-
-                <!-- Layers (Pro View) -->
-                <div class="editor-panel">
-                    <div class="editor-panel-header">
-                        Layers
-                        <button class="editor-panel-toggle" type="button">–</button>
-                    </div>
-                    <div class="editor-panel-body">
-                        <div id="proLayerList" class="layer-list"></div>
-                    </div>
-                </div>
-
-                <!-- Effects Panel -->
-                <div class="editor-panel">
-                    <div class="editor-panel-header">
-                        Effects
-                        <button class="editor-panel-toggle" type="button">–</button>
-                    </div>
-                    <div class="editor-panel-body">
-                        <div class="editor-slider-row">
-                            <span>Glow</span>
-                            <input type="range" id="effectGlow" min="0" max="100" value="0">
-                        </div>
-                        <div class="editor-slider-row">
-                            <span>Shadow</span>
-                            <input type="range" id="effectShadow" min="0" max="100" value="20">
-                        </div>
-                        <div class="editor-slider-row">
-                            <span>Blur</span>
-                            <input type="range" id="effectBlur" min="0" max="30" value="0">
-                        </div>
-                    </div>
-                </div>
-
-            </aside>
-
-        </div>
-
-    </section>
-
-    <!-- FOOTER -->
-    <footer class="site-footer">
-        <div class="footer-inner">
-
-            <div class="footer-links">
-                <a href="about.html">About</a>
-                <a href="contact.html">Contact</a>
-                <a href="faq.html">FAQ</a>
-                <a href="terms.html">Terms</a>
-                <a href="privacy.html">Privacy</a>
             </div>
 
-            <div class="admin-link">
-                <a href="admin.html">Admin Login</a>
+            <!-- AI PANEL -->
+            <div class="panel" id="aiPanel">
+                <div class="panel-title">AI Image Generator</div>
+
+                <input id="aiPrompt" type="text" placeholder="Describe what to create...">
+                <button id="aiGenerateBtn" class="panel-btn">Generate</button>
+                <div id="aiStatus" class="ai-status"></div>
             </div>
 
-            <p class="copyright">
-                © 2026 Mystic Design Studio. All rights reserved.
-            </p>
+        </aside>
 
-        </div>
+    </div>
+
+    <!-- BOTTOM STATUS BAR -->
+    <footer class="editor-statusbar">
+        <div id="statusPosition">X: 0 | Y: 0</div>
+        <div id="statusZoom">Zoom: 100%</div>
+        <div id="statusLayer">No layer selected</div>
     </footer>
 
 </body>

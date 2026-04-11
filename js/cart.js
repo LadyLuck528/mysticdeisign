@@ -1,93 +1,59 @@
 /* --------------------------------------------------
-   cart.js — Mystic POD Cart Engine
-   - Add / remove items
-   - Update quantity
-   - Cart badge
-   - LocalStorage sync
-   - Checkout handoff
+   cart.js — Mystic Design Cart Engine
+   - LocalStorage cart
+   - Quantity updates
+   - Remove items
+   - Totals
+   - Square checkout handoff
 -------------------------------------------------- */
 
-(function () {
-    "use strict";
+document.addEventListener("DOMContentLoaded", () => {
+    const CART_KEY = "mystic_cart";
+    const checkoutButton = document.getElementById("checkoutButton");
 
-    const PODApp = window.PODApp;
-    const { $, $$, on } = PODApp.dom;
-    const Events = PODApp.events;
-
-    /* -------------------------
-       CART STATE
-    -------------------------- */
-
-    const Cart = {
-        items: [],
-        badgeEl: null
-    };
-
-    PODApp.cart = Cart;
+    let cart = loadCart();
+    renderCart();
+    updateTotals();
 
     /* -------------------------
-       INIT CART
+       LOAD / SAVE CART
     -------------------------- */
 
-    function initCart() {
-        Cart.items = PODApp.storage.get("cart", []);
-        Cart.badgeEl = $("[data-cart-badge]");
-
-        updateBadge();
-        renderCartPage();
-
-        // Listen for updates from product.js
-        Events.on("cart:updated", items => {
-            Cart.items = items;
-            PODApp.storage.set("cart", Cart.items);
-            updateBadge();
-            renderCartPage();
-        });
-
-        if (PODApp.config.debug) {
-            console.log("%cCart Ready", "color:#ffcc00;font-weight:bold;");
+    function loadCart() {
+        try {
+            return JSON.parse(localStorage.getItem(CART_KEY)) || [];
+        } catch {
+            return [];
         }
     }
 
-    document.addEventListener("DOMContentLoaded", initCart);
-
-    /* -------------------------
-       BADGE UPDATE
-    -------------------------- */
-
-    function updateBadge() {
-        if (!Cart.badgeEl) return;
-        const count = Cart.items.reduce((sum, item) => sum + item.qty, 0);
-        Cart.badgeEl.textContent = count;
-        Cart.badgeEl.classList.toggle("show", count > 0);
+    function saveCart() {
+        localStorage.setItem(CART_KEY, JSON.stringify(cart));
     }
 
     /* -------------------------
-       RENDER CART PAGE
+       RENDER CART ITEMS
     -------------------------- */
 
-    function renderCartPage() {
-        const container = $("#cartItems");
+    function renderCart() {
+        const container = document.getElementById("cartItems");
         if (!container) return;
 
-        if (Cart.items.length === 0) {
+        if (cart.length === 0) {
             container.innerHTML = `<div class="empty-cart">Your cart is empty</div>`;
-            updateTotals();
             return;
         }
 
-        container.innerHTML = Cart.items
-            .map(item => {
-                return `
+        container.innerHTML = cart
+            .map(item => `
                 <div class="cart-item" data-id="${item.id}">
-                    <img src="${item.mockup}" class="cart-thumb" />
+                    <img src="${item.image}" alt="" />
 
-                    <div class="cart-info">
-                        <div class="cart-title">${item.title}</div>
-                        <div class="cart-variant">${item.variantName}</div>
-                        <div class="cart-price">$${item.price.toFixed(2)}</div>
+                    <div class="cart-item-info">
+                        <div class="cart-item-title">${item.title}</div>
+                        <div class="cart-item-price">$${item.price.toFixed(2)}</div>
 
-                        <div class="cart-qty">
+                        <div class="cart-item-qty">
                             <button class="qty-btn" data-action="minus">-</button>
                             <span class="qty-value">${item.qty}</span>
                             <button class="qty-btn" data-action="plus">+</button>
@@ -96,57 +62,51 @@
 
                     <button class="cart-remove" data-remove>&times;</button>
                 </div>
-            `;
-            })
+            `)
             .join("");
 
-        initCartActions();
-        updateTotals();
+        attachCartEvents();
     }
 
     /* -------------------------
        CART ITEM ACTIONS
     -------------------------- */
 
-    function initCartActions() {
-        const container = $("#cartItems");
-        if (!container) return;
+    function attachCartEvents() {
+        const container = document.getElementById("cartItems");
 
-        // Quantity buttons
         container.addEventListener("click", e => {
             const btn = e.target.closest(".qty-btn");
-            if (!btn) return;
+            const removeBtn = e.target.closest("[data-remove]");
 
-            const itemEl = btn.closest(".cart-item");
-            const id = itemEl.dataset.id;
-            const action = btn.dataset.action;
+            // Quantity buttons
+            if (btn) {
+                const itemEl = btn.closest(".cart-item");
+                const id = itemEl.dataset.id;
+                const action = btn.dataset.action;
 
-            const item = Cart.items.find(i => i.id === id);
-            if (!item) return;
+                const item = cart.find(i => i.id === id);
+                if (!item) return;
 
-            if (action === "plus") item.qty++;
-            if (action === "minus" && item.qty > 1) item.qty--;
+                if (action === "plus") item.qty++;
+                if (action === "minus" && item.qty > 1) item.qty--;
 
-            PODApp.storage.set("cart", Cart.items);
-            renderCartPage();
-            updateBadge();
-        });
+                saveCart();
+                renderCart();
+                updateTotals();
+                return;
+            }
 
-        // Remove item
-        container.addEventListener("click", e => {
-            const btn = e.target.closest("[data-remove]");
-            if (!btn) return;
+            // Remove item
+            if (removeBtn) {
+                const itemEl = removeBtn.closest(".cart-item");
+                const id = itemEl.dataset.id;
 
-            const itemEl = btn.closest(".cart-item");
-            const id = itemEl.dataset.id;
-
-            Cart.items = Cart.items.filter(i => i.id !== id);
-            PODApp.storage.set("cart", Cart.items);
-
-            PODApp.ui.showToast("Item removed", "info");
-
-            renderCartPage();
-            updateBadge();
+                cart = cart.filter(i => i.id !== id);
+                saveCart();
+                renderCart();
+                updateTotals();
+            }
         });
     }
 
@@ -155,35 +115,46 @@
     -------------------------- */
 
     function updateTotals() {
-        const subtotalEl = $("#cartSubtotal");
-        const totalEl = $("#cartTotal");
+        const subtotalEl = document.getElementById("cartSubtotal");
+        const totalEl = document.getElementById("cartTotal");
 
-        if (!subtotalEl || !totalEl) return;
+        const subtotal = cart.reduce((sum, item) => sum + item.price * item.qty, 0);
+        const total = subtotal; // shipping/tax added by Square
 
-        const subtotal = Cart.items.reduce((sum, item) => sum + item.price * item.qty, 0);
-        const total = subtotal; // taxes/shipping added at checkout
-
-        subtotalEl.textContent = `$${subtotal.toFixed(2)}`;
-        totalEl.textContent = `$${total.toFixed(2)}`;
+        if (subtotalEl) subtotalEl.textContent = `$${subtotal.toFixed(2)}`;
+        if (totalEl) totalEl.textContent = `$${total.toFixed(2)}`;
     }
 
     /* -------------------------
        CHECKOUT HANDOFF
     -------------------------- */
 
-    const checkoutBtn = $("#checkoutBtn");
-    if (checkoutBtn) {
-        on(checkoutBtn, "click", () => {
-            if (Cart.items.length === 0) {
-                PODApp.ui.showToast("Your cart is empty", "warning");
+    if (checkoutButton) {
+        checkoutButton.addEventListener("click", async () => {
+            if (cart.length === 0) {
+                alert("Your cart is empty");
                 return;
             }
 
-            // Save cart for checkout page
-            PODApp.storage.set("checkoutCart", Cart.items);
+            // Send cart to Worker
+            try {
+                const response = await fetch("YOUR_WORKER_URL_HERE", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ cart })
+                });
 
-            window.location.href = "/checkout.html";
+                const data = await response.json();
+
+                if (data.checkoutUrl) {
+                    window.location.href = data.checkoutUrl;
+                } else {
+                    alert("Checkout failed. Please try again.");
+                }
+            } catch (err) {
+                console.error(err);
+                alert("Error connecting to checkout.");
+            }
         });
     }
-
-})();
+});

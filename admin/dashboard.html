@@ -1,80 +1,85 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8" />
-  <title>Mystic Design Admin Dashboard</title>
+  <title>Mystic Admin Dashboard</title>
   <style>
     body {
-      font-family: system-ui, sans-serif;
-      background: #05030a;
-      color: #f5e9ff;
-      min-height: 100vh;
-      margin: 0;
-      display: flex;
-      flex-direction: column;
-    }
-    header {
-      padding: 1rem 1.5rem;
-      background: #12091f;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    main {
-      padding: 1.5rem;
-    }
-    button {
-      padding: 0.4rem 0.8rem;
-      border-radius: 6px;
-      border: none;
-      background: #ef4444;
+      background: #0d0d0d;
       color: white;
-      cursor: pointer;
-      font-size: 0.85rem;
+      font-family: Arial, sans-serif;
+      padding: 20px;
     }
-    button:hover {
-      background: #dc2626;
+    h1 {
+      color: #ff00ff;
+      text-shadow: 0 0 10px #ff00ff;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+    th, td {
+      padding: 12px;
+      border-bottom: 1px solid #333;
+    }
+    tr:hover {
+      background: #1a1a1a;
+      cursor: pointer;
     }
   </style>
 </head>
 <body>
-  <header>
-    <div>Mystic Design Admin</div>
-    <button id="logoutBtn">Logout</button>
-  </header>
-  <main>
-    <h1>Welcome, Creator ✨</h1>
-    <p>You are logged in with a valid admin session.</p>
-    <p>From here, we can later plug in:</p>
-    <ul>
-      <li>Blueprint orders</li>
-      <li>AI job logs</li>
-      <li>Customer uploads</li>
-      <li>R2 file browser</li>
-    </ul>
-  </main>
 
-  <script>
-    function isTokenValid() {
-      const token = localStorage.getItem("mystic_admin_token");
-      const exp = localStorage.getItem("mystic_admin_exp");
+<h1>Mystic Admin Dashboard</h1>
+<p>Orders will appear below.</p>
 
-      if (!token || !exp) return false;
+<table id="orders">
+  <tr>
+    <th>Order ID</th>
+    <th>Email</th>
+    <th>Amount</th>
+    <th>Date</th>
+  </tr>
+</table>
 
-      const now = Math.floor(Date.now() / 1000);
-      return now < Number(exp);
+<script>
+async function loadOrders() {
+  const token = localStorage.getItem('token')
+  if (!token) {
+    window.location.href = "/admin/login.html"
+    return
+  }
+
+  const res = await fetch('/admin/orders', {
+    headers: { 'Authorization': 'Bearer ' + token }
+  })
+
+  if (res.status === 401) {
+    localStorage.removeItem('token')
+    window.location.href = "/admin/login.html"
+    return
+  }
+
+  const orders = await res.json()
+  const table = document.getElementById('orders')
+
+  orders.forEach(order => {
+    const row = document.createElement('tr')
+    row.innerHTML = `
+      <td>${order.order_id}</td>
+      <td>${order.email}</td>
+      <td>$${(order.amount / 100).toFixed(2)}</td>
+      <td>${order.created_at}</td>
+    `
+    row.onclick = () => {
+      window.location.href = "/admin/order.html?id=" + order.order_id
     }
+    table.appendChild(row)
+  })
+}
 
-    if (!isTokenValid()) {
-      // No valid token → back to login
-      window.location.href = "/admin/login.html";
-    }
+loadOrders()
+</script>
 
-    document.getElementById("logoutBtn").addEventListener("click", () => {
-      localStorage.removeItem("mystic_admin_token");
-      localStorage.removeItem("mystic_admin_exp");
-      window.location.href = "/admin/login.html";
-    });
-  </script>
 </body>
 </html>

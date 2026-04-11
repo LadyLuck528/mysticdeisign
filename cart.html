@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Cart - Mystic Design</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body>
+
+    <!-- HERO / HEADER STYLE CART BANNER -->
+    <section id="cart-hero">
+        <h1>Your Cart</h1>
+        <p>Review your items before checkout.</p>
+    </section>
+
+    <!-- CART WRAPPER -->
+    <section id="cart-page">
+
+        <!-- CART ITEMS -->
+        <div id="cartItems" class="cart-list">
+            <!-- Items will be injected here by cart.js -->
+        </div>
+
+        <!-- CART TOTALS -->
+        <div class="cart-summary">
+            <h2>Order Summary</h2>
+
+            <div class="summary-line">
+                <span>Subtotal</span>
+                <span id="cartSubtotal">$0.00</span>
+            </div>
+
+            <div class="summary-line">
+                <span>Shipping</span>
+                <span id="cartShipping">$0.00</span>
+            </div>
+
+            <div class="summary-total">
+                <span>Total</span>
+                <span id="cartTotal">$0.00</span>
+            </div>
+
+            <!-- CHECKOUT BUTTON -->
+            <a id="checkoutButton" class="checkout-btn">
+                Checkout with Square
+            </a>
+        </div>
+
+    </section>
+
+    <script src="js/cart.js" defer></script>
+
+</body>
+</html>
