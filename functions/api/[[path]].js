@@ -144,6 +144,76 @@ export async function onRequest(context) {
       return json({ ok: true })
     }
 
+    if (path === '/square/checkout') {
+      if (method !== 'POST') {
+        return json({ success: false, message: 'Method not allowed' }, 405)
+      }
+
+      const accessToken = readEnv(env, ['SQUARE_ACCESS_TOKEN'])
+      const locationId = readEnv(env, ['SQUARE_LOCATION_ID'])
+
+      if (!accessToken || !locationId) {
+        return json(
+          {
+            success: false,
+            message: 'Square secrets are not configured',
+            missing: [
+              !accessToken ? 'SQUARE_ACCESS_TOKEN' : null,
+              !locationId ? 'SQUARE_LOCATION_ID' : null
+            ].filter(Boolean)
+          },
+          500
+        )
+      }
+
+      const body = await safeJson(request)
+      if (!body || !Array.isArray(body.cart) || body.cart.length === 0) {
+        return json({ success: false, message: 'Missing cart items' }, 400)
+      }
+
+      const lineItems = buildSquareLineItems(body.cart)
+      if (lineItems.length === 0) {
+        return json({ success: false, message: 'Cart items are invalid' }, 400)
+      }
+
+      const redirectUrl = readEnv(env, ['SQUARE_REDIRECT_URL']) || `${url.origin}/checkout.html`
+      const squareRes = await fetch('https://connect.squareup.com/v2/online-checkout/payment-links', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${accessToken}`,
+          'Square-Version': '2024-09-19'
+        },
+        body: JSON.stringify({
+          idempotency_key: crypto.randomUUID(),
+          order: {
+            location_id: locationId,
+            line_items: lineItems
+          },
+          checkout_options: {
+            redirect_url: redirectUrl
+          }
+        })
+      })
+
+      const squareJson = await safeJsonFromResponse(squareRes)
+      const checkoutUrl = squareJson?.payment_link?.url
+
+      if (!squareRes.ok || !checkoutUrl) {
+        return json(
+          {
+            success: false,
+            message: 'Unable to create Square checkout',
+            squareStatus: squareRes.status,
+            squareErrors: squareJson?.errors || null
+          },
+          502
+        )
+      }
+
+      return json({ success: true, checkoutUrl })
+    }
+
     return json({ error: 'Not found' }, 404)
   } catch (err) {
     return json(
@@ -193,6 +263,46 @@ async function safeJson(request) {
   } catch {
     return null
   }
+}
+
+async function safeJsonFromResponse(response) {
+  try {
+    return await response.json()
+  } catch {
+    return null
+  }
+}
+
+function buildSquareLineItems(cart) {
+  const items = []
+
+  for (const item of cart) {
+    const title = typeof item?.title === 'string' ? item.title.trim() : ''
+    const price = Number(item?.price)
+    const qtyNumber = Number(item?.qty)
+
+    if (!title || !Number.isFinite(price) || !Number.isFinite(qtyNumber)) {
+      continue
+    }
+
+    const amount = Math.round(price * 100)
+    const qty = Math.max(1, Math.round(qtyNumber))
+
+    if (amount <= 0) {
+      continue
+    }
+
+    items.push({
+      name: title,
+      quantity: String(qty),
+      base_price_money: {
+        amount,
+        currency: 'USD'
+      }
+    })
+  }
+
+  return items
 }
 
 function base64UrlEncodeString(value) {

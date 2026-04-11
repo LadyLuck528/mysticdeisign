@@ -50,7 +50,7 @@ async function loadOrders() {
     return
   }
 
-  const res = await fetch('/admin/orders', {
+  const res = await fetch('/api/admin/orders', {
     headers: { 'Authorization': 'Bearer ' + token }
   })
 

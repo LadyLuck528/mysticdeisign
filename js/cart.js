@@ -138,7 +138,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             // Send cart to Worker
             try {
-                const response = await fetch("YOUR_WORKER_URL_HERE", {
+                const response = await fetch("/api/square/checkout", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({ cart })
