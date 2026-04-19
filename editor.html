@@ -2,191 +2,173 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Product Editor - Mystic Design Studio</title>
+    <title>Mystic Editor</title>
 
-    <!-- Main CSS -->
-    <!-- Editor CSS -->
-<link rel="stylesheet" href="editor/css/global.css">
-<link rel="stylesheet" href="editor/css/editor.css">
-<link rel="stylesheet" href="editor/css/editor-layout.css">
-<link rel="stylesheet" href="editor/css/editor-panels.css">
-<link rel="stylesheet" href="editor/css/editor-tools.css">
-<link rel="stylesheet" href="editor/css/canvas.css">
-<link rel="stylesheet" href="editor/css/toolbar.css">
-<link rel="stylesheet" href="editor/css/sidebar.css">
-<link rel="stylesheet" href="editor/css/preview.css">
-<link rel="stylesheet" href="editor/css/animations.css">
-
-    <!-- Editor Scripts -->
-    <!-- Editor JS -->
-<script src="editor/js/editor.js" defer></script>
-<script src="editor/js/3d-engine.js" defer></script>
-
+    <!-- Cosmic UI Styles -->
+    <link rel="stylesheet" href="css/mystic-ui.css">
 
 </head>
 
-<body class="editor-pro dark-mode">
+<body>
+<div id="mystic-app">
 
-    <!-- Cosmic Background -->
-    <div class="background-overlay"></div>
+    <!-- LEFT TOOLBAR (340px) -->
+    <aside id="left-toolbar">
+        <div class="toolbar-section">
 
-    <!-- TOP ACTION BAR -->
-    <header class="editor-topbar">
-        <div class="topbar-left">
-            <div class="editor-logo">Mystic Design Studio</div>
+            <!-- Each tool has icon + label -->
+            <button class="tool-btn" data-flyout="text-flyout">
+                <span class="icon">✎</span>
+                <span class="label">Text</span>
+            </button>
+
+            <button class="tool-btn" data-flyout="shapes-flyout">
+                <span class="icon">⬛</span>
+                <span class="label">Shapes</span>
+            </button>
+
+            <button class="tool-btn" id="upload-tool">
+                <span class="icon">⭳</span>
+                <span class="label">Upload</span>
+            </button>
+
+            <button class="tool-btn" data-flyout="brush-flyout">
+                <span class="icon">🖌️</span>
+                <span class="label">Brush</span>
+            </button>
+
+            <button class="tool-btn" data-flyout="eraser-flyout">
+                <span class="icon">⌫</span>
+                <span class="label">Eraser</span>
+            </button>
+
+            <button class="tool-btn" id="select-tool">
+                <span class="icon">🖱️</span>
+                <span class="label">Select</span>
+            </button>
+
+            <button class="tool-btn" data-flyout="color-flyout">
+                <span class="icon">🎨</span>
+                <span class="label">Color</span>
+            </button>
+
+            <button class="tool-btn" data-flyout="stroke-flyout">
+                <span class="icon">🖍️</span>
+                <span class="label">Stroke</span>
+            </button>
+
+            <button class="tool-btn" data-flyout="shadow-flyout">
+                <span class="icon">🌑</span>
+                <span class="label">Shadow</span>
+            </button>
+
+            <button class="tool-btn" data-flyout="align-flyout">
+                <span class="icon">☰</span>
+                <span class="label">Align</span>
+            </button>
+
+            <button class="tool-btn" data-flyout="filters-flyout">
+                <span class="icon">✨</span>
+                <span class="label">Filters</span>
+            </button>
+
+            <button class="tool-btn" data-flyout="bgremove-flyout">
+                <span class="icon">✂️</span>
+                <span class="label">BG Remove</span>
+            </button>
+
+            <button class="tool-btn" data-flyout="magicwand-flyout">
+                <span class="icon">🪄</span>
+                <span class="label">Magic Wand</span>
+            </button>
+
+            <button class="tool-btn" data-flyout="gradient-flyout">
+                <span class="icon">▨</span>
+                <span class="label">Gradient</span>
+            </button>
+
+            <button class="tool-btn" data-flyout="pattern-flyout">
+                <span class="icon">▦</span>
+                <span class="label">Pattern</span>
+            </button>
+
+            <button class="tool-btn" data-flyout="stickers-flyout">
+                <span class="icon">💫</span>
+                <span class="label">Stickers</span>
+            </button>
+
+            <button class="tool-btn" data-flyout="templates-flyout">
+                <span class="icon">📐</span>
+                <span class="label">Templates</span>
+            </button>
+
+            <button class="tool-btn" id="snap-grid">
+                <span class="icon">#</span>
+                <span class="label">Snap</span>
+            </button>
+
+            <button class="tool-btn" id="ruler-guides">
+                <span class="icon">📏</span>
+                <span class="label">Guides</span>
+            </button>
+
+            <button class="tool-btn" id="undo-btn">
+                <span class="icon">↶</span>
+                <span class="label">Undo</span>
+            </button>
+
+            <button class="tool-btn" id="redo-btn">
+                <span class="icon">↷</span>
+                <span class="label">Redo</span>
+            </button>
+
+            <button class="tool-btn" id="zoom-tool">
+                <span class="icon">🔍</span>
+                <span class="label">Zoom</span>
+            </button>
+
         </div>
+    </aside>
 
-        <div class="topbar-center">
-            <button class="topbar-btn" id="undoBtn">Undo</button>
-            <button class="topbar-btn" id="redoBtn">Redo</button>
-            <button class="topbar-btn" id="zoomInBtn">Zoom +</button>
-            <button class="topbar-btn" id="zoomOutBtn">Zoom -</button>
-            <button class="topbar-btn" id="toggleGridBtn">Grid</button>
-        </div>
+    <!-- CENTER CANVAS AREA -->
+    <main id="canvas-area">
+        <div id="canvas-glow"></div>
+        <canvas id="design-canvas" width="1920" height="1080"></canvas>
+    </main>
 
-        <div class="topbar-right">
-            <button id="simpleModeBtn" class="mode-btn">Simple</button>
-            <button id="proModeBtn" class="mode-btn active">Pro</button>
-        </div>
-    </header>
+    <!-- RIGHT PANEL (340px) -->
+    <aside id="right-panel">
 
-    <!-- MAIN EDITOR LAYOUT -->
-    <div class="editor-layout">
+        <!-- LAYERS PANEL (TOP) -->
+        <section id="layers-panel">
+            <h2 class="panel-title">Layers</h2>
+            <div id="layers-list"></div>
+        </section>
 
-        <!-- LEFT TOOLBAR (ICON-BASED) -->
-        <aside class="editor-toolbar">
+        <!-- AI PANEL (BOTTOM) -->
+        <section id="ai-panel">
+            <h2 class="panel-title">AI Generator</h2>
+            <textarea id="ai-prompt" placeholder="Describe your image..."></textarea>
+            <button id="ai-generate-btn" class="primary-btn">Generate</button>
+        </section>
 
-            <button class="tool-btn" data-tool="select" title="Select">
-                🖱
-            </button>
+    </aside>
 
-            <button class="tool-btn" data-tool="hand" title="Hand Tool">
-                ✋
-            </button>
-
-            <button class="tool-btn" data-tool="pen" title="Pen Tool">
-                ✏️
-            </button>
-
-            <button class="tool-btn" data-tool="rect" title="Rectangle">
-                🔲
-            </button>
-
-            <button class="tool-btn" data-tool="circle" title="Circle">
-                ⚪
-            </button>
-
-            <button class="tool-btn" data-tool="text" title="Add Text">
-                🔤
-            </button>
-
-            <button class="tool-btn" data-tool="upload" title="Upload Image">
-                🖼
-            </button>
-
-            <button class="tool-btn" data-tool="color" title="Color Picker">
-                🎨
-            </button>
-
-            <button class="tool-btn" data-tool="ai" title="AI Image Generator">
-                🧙
-            </button>
-
-            <button class="tool-btn" data-tool="layers" title="Layers">
-                🧩
-            </button>
-
-            <button class="tool-btn" data-tool="settings" title="Settings">
-                ⚙️
-            </button>
-
-        </aside>
-
-        <!-- CENTER CANVAS AREA -->
-        <main class="editor-canvas-area">
-
-            <!-- Canvas Wrapper -->
-            <div class="canvas-wrapper">
-
-                <!-- 3D Model Viewer -->
-                <div id="modelViewer" class="model-viewer"></div>
-
-                <!-- Mask Overlay -->
-                <img id="maskOverlay" class="mask-overlay" src="" alt="Mask Overlay">
-
-                <!-- Main Canvas -->
-                <canvas id="designCanvas" class="design-canvas"></canvas>
-
-                <!-- Drawing Layer -->
-                <canvas id="drawLayer" class="editor-draw-layer"></canvas>
-
-                <!-- Grid Overlay -->
-                <div class="editor-grid-overlay" id="gridOverlay"></div>
-
-            </div>
-        </main>
-
-        <!-- RIGHT PANELS -->
-        <aside class="editor-panels">
-
-            <!-- LAYERS PANEL -->
-            <div class="panel" id="layersPanel">
-                <div class="panel-title">Layers</div>
-                <div id="layerList" class="layer-list"></div>
-            </div>
-
-            <!-- PROPERTIES PANEL -->
-            <div class="panel" id="propertiesPanel">
-                <div class="panel-title">Properties</div>
-
-                <div class="panel-section">
-                    <label>Color</label>
-                    <input type="color" id="colorPicker" value="#ffffff">
-                </div>
-
-                <div class="panel-section">
-                    <label>Position</label>
-                    <input type="number" id="posX" placeholder="X">
-                    <input type="number" id="posY" placeholder="Y">
-                </div>
-
-                <div class="panel-section">
-                    <label>Size</label>
-                    <input type="number" id="widthInput" placeholder="Width">
-                    <input type="number" id="heightInput" placeholder="Height">
-                </div>
-
-                <div class="panel-section">
-                    <label>Mode</label>
-                    <select id="layerMode">
-                        <option value="print">Print Only</option>
-                        <option value="cut">Cut Only</option>
-                        <option value="printcut">Print & Cut</option>
-                    </select>
-                </div>
-
-            </div>
-
-            <!-- AI PANEL -->
-            <div class="panel" id="aiPanel">
-                <div class="panel-title">AI Image Generator</div>
-
-                <input id="aiPrompt" type="text" placeholder="Describe what to create...">
-                <button id="aiGenerateBtn" class="panel-btn">Generate</button>
-                <div id="aiStatus" class="ai-status"></div>
-            </div>
-
-        </aside>
-
+    <!-- BOTTOM CENTER BUTTONS -->
+    <div id="bottom-buttons">
+        <button class="primary-btn">Upload</button>
+        <button class="primary-btn">Preview</button>
+        <button class="primary-btn green-btn">Add to Cart</button>
     </div>
 
-    <!-- BOTTOM STATUS BAR -->
-    <footer class="editor-statusbar">
-        <div id="statusPosition">X: 0 | Y: 0</div>
-        <div id="statusZoom">Zoom: 100%</div>
-        <div id="statusLayer">No layer selected</div>
-    </footer>
+</div>
+
+<!-- JS Files -->
+<script src="js/editor.js"></script>
+<script src="js/tools.js"></script>
+<script src="js/panels.js"></script>
+<script src="js/ui.js"></script>
+
 
 </body>
 </html>
