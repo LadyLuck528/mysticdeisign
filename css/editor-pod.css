@@ -1,0 +1,62 @@
+/* Root container */
+#editor-root {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+}
+#right-panel {
+    position: absolute;
+    z-index: 4;
+}#editor-main {
+    position: relative;
+    z-index: 5;
+}
+
+
+#canvas-container,
+#editor-canvas {
+    position: absolute;
+    z-index: 5;
+}
+
+/* Mystical UI background */
+#editor-ui {
+    position: absolute;
+    inset: 0;
+    background-image: url('../images/bg3.png');
+    background-size: cover;
+    background-position: center;
+    z-index: 1;
+}
+
+/* Hotspot layer */
+#hotspots {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    pointer-events: none;
+}
+
+/* Individual hotspot */
+.hotspot {
+    position: absolute;
+    pointer-events: auto;
+    cursor: pointer;
+
+    /* TEMP: turn this on to see hotspots */
+    /* background: rgba(0,255,255,0.2); */
+}
+
+/* Canvas container */
+#canvas-container {
+    position: absolute;
+    z-index: 3;
+
+    /* You will adjust these to match your mystical UI layout */
+    left: 25%;
+    top: 15%;
+    width: 50%;
+    height: 70%;
+    background: #111;
+}

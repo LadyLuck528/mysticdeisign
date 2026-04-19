@@ -1,0 +1,33 @@
+/* /editor/css/crop.css */
+
+#crop-box {
+    position: absolute;
+    border: 2px solid #00e0ff;
+    box-shadow: 0 0 20px rgba(0,255,255,0.4);
+    pointer-events: auto;
+}
+
+.crop-handle {
+    width: 14px;
+    height: 14px;
+    background: #00e0ff;
+    border-radius: 50%;
+    position: absolute;
+}
+
+.crop-handle.nw { top: -7px; left: -7px; }
+.crop-handle.ne { top: -7px; right: -7px; }
+.crop-handle.sw { bottom: -7px; left: -7px; }
+.crop-handle.se { bottom: -7px; right: -7px; }
+
+#crop-panel {
+    padding: 15px;
+}
+
+.dpi-indicator {
+    margin-bottom: 10px;
+}
+
+#crop-dpi-status.good { color: #00ff88; }
+#crop-dpi-status.warn { color: #ffcc00; }
+#crop-dpi-status.bad { color: #ff4444; }

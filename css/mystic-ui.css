@@ -1,0 +1,246 @@
+/* ---------------------------------------------------------
+   MYSTIC EDITOR — COSMIC UI THEME
+   Black + Deep Purple + Strong Glow
+   --------------------------------------------------------- */
+
+/* GLOBAL RESET */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Inter", sans-serif;
+}
+
+body {
+    background: #000;
+    color: #e8d9ff;
+    overflow: hidden;
+}
+
+/* APP ROOT */
+#mystic-app {
+    display: flex;
+    height: 100vh;
+    width: 100vw;
+    background: #000;
+}
+
+/* ---------------------------------------------------------
+   LEFT TOOLBAR (340px)
+   --------------------------------------------------------- */
+#left-toolbar {
+    width: 340px;
+    background: #0a0a0a;
+    border-right: 2px solid #2a0f3a;
+    padding: 20px 10px;
+    overflow-y: auto;
+    box-shadow: 0 0 25px #3d1454;
+}
+
+#left-toolbar .toolbar-section {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+/* TOOL BUTTONS */
+.tool-btn {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 18px;
+    background: #111;
+    border: 1px solid #2a0f3a;
+    border-radius: 8px;
+    color: #d8baff;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.2s ease;
+    box-shadow: 0 0 12px rgba(176, 108, 255, 0.25);
+}
+
+.tool-btn .icon {
+    font-size: 22px;
+    color: #b06cff;
+    text-shadow: 0 0 12px #b06cff;
+}
+
+.tool-btn:hover {
+    background: #1a0a22;
+    box-shadow: 0 0 18px #b06cff;
+    border-color: #b06cff;
+}
+
+.tool-btn:active {
+    background: #2a0f3a;
+    box-shadow: 0 0 25px #d7b3ff;
+}
+
+/* ---------------------------------------------------------
+   RIGHT PANEL (340px)
+   --------------------------------------------------------- */
+#right-panel {
+    width: 340px;
+    background: #0a0a0a;
+    border-left: 2px solid #2a0f3a;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 0 25px #3d1454;
+}
+
+/* PANEL TITLES */
+.panel-title {
+    font-size: 20px;
+    padding: 16px;
+    background: #111;
+    border-bottom: 1px solid #2a0f3a;
+    color: #d8baff;
+    text-shadow: 0 0 12px #b06cff;
+}
+
+/* ---------------------------------------------------------
+   LAYERS PANEL (TOP)
+   --------------------------------------------------------- */
+#layers-panel {
+    flex: 1;
+    overflow-y: auto;
+    padding-bottom: 10px;
+}
+
+#layers-list {
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.layer-item {
+    background: #111;
+    border: 1px solid #3d1454;
+    padding: 10px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: #e8d9ff;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.layer-item:hover {
+    background: #1a0a22;
+    box-shadow: 0 0 15px #b06cff;
+}
+
+/* ---------------------------------------------------------
+   AI PANEL (BOTTOM)
+   --------------------------------------------------------- */
+#ai-panel {
+    height: 260px;
+    border-top: 2px solid #2a0f3a;
+    padding: 16px;
+    background: #0f0a12;
+}
+
+#ai-prompt {
+    width: 100%;
+    height: 120px;
+    background: #111;
+    border: 1px solid #3d1454;
+    border-radius: 8px;
+    padding: 12px;
+    color: #e8d9ff;
+    resize: none;
+    outline: none;
+    box-shadow: inset 0 0 15px #2a0f3a;
+}
+
+#ai-generate-btn {
+    width: 100%;
+    margin-top: 12px;
+    padding: 12px;
+    background: #2a0f3a;
+    border: 1px solid #b06cff;
+    border-radius: 8px;
+    color: #f3e8ff;
+    cursor: pointer;
+    font-size: 16px;
+    box-shadow: 0 0 18px #b06cff;
+    transition: 0.2s ease;
+}
+
+#ai-generate-btn:hover {
+    background: #3d1454;
+    box-shadow: 0 0 25px #d7b3ff;
+}
+
+/* ---------------------------------------------------------
+   CANVAS AREA (CENTER)
+   --------------------------------------------------------- */
+#canvas-area {
+    flex: 1;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #000;
+}
+
+/* PURPLE GLOW BEHIND CANVAS */
+#canvas-glow {
+    position: absolute;
+    width: 80%;
+    height: 80%;
+    background: radial-gradient(circle, rgba(88,0,120,0.45), transparent 70%);
+    filter: blur(80px);
+    z-index: 0;
+}
+
+/* CANVAS */
+#design-canvas {
+    position: relative;
+    z-index: 2;
+    background: #fff;
+    border: 2px solid #3d1454;
+    box-shadow: 0 0 35px #b06cff;
+}
+
+/* ---------------------------------------------------------
+   BOTTOM CENTER BUTTONS
+   --------------------------------------------------------- */
+#bottom-buttons {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 20px;
+    z-index: 10;
+}
+
+.primary-btn {
+    padding: 12px 24px;
+    background: #2a0f3a;
+    border: 1px solid #b06cff;
+    border-radius: 8px;
+    color: #f3e8ff;
+    cursor: pointer;
+    font-size: 16px;
+    box-shadow: 0 0 18px #b06cff;
+    transition: 0.2s ease;
+}
+
+.primary-btn:hover {
+    background: #3d1454;
+    box-shadow: 0 0 25px #d7b3ff;
+}
+
+.green-btn {
+    background: linear-gradient(135deg, #00c851, #007e33);
+    border-color: #00ff88;
+    box-shadow: 0 0 20px #00ff88;
+}
+
+.green-btn:hover {
+    box-shadow: 0 0 30px #00ff88;
+}

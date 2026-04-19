@@ -1,1358 +1,160 @@
-/* ==========================================================================
-   Mystic Editor — Base Styles & Theme Variables
-   File: editor.css — Section 1 of 8
-   ========================================================================== */
-
-/* ------------------------------------------------------------
-   CSS RESET (clean, modern, minimal)
------------------------------------------------------------- */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-html, body {
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-    font-family: "Inter", system-ui, sans-serif;
-    background: #0d0d0f;
-    color: #e5e5e7;
-}
-
-/* ------------------------------------------------------------
-   ROOT VARIABLES — Dark Mystical Theme
------------------------------------------------------------- */
-:root {
-    --mystic-bg: #0d0d0f;
-    --mystic-bg-light: #1a1a1d;
-    --mystic-bg-panel: #141417;
-    --mystic-border: #2a2a2e;
-    --mystic-text: #e5e5e7;
-    --mystic-text-dim: #9a9aa0;
-
-    --mystic-accent: #7f5af0;
-    --mystic-accent-glow: rgba(127, 90, 240, 0.6);
-
-    --mystic-success: #2cb67d;
-    --mystic-warning: #f0a500;
-    --mystic-danger: #ff4f4f;
-
-    --mystic-radius: 6px;
-    --mystic-radius-lg: 10px;
-
-    --mystic-transition: 0.2s ease;
-}
-
-/* ------------------------------------------------------------
-   BODY THEMES (dark/light toggle support)
------------------------------------------------------------- */
-body.mystic-theme-dark {
-    background: var(--mystic-bg);
-    color: var(--mystic-text);
-}
-
-body.mystic-theme-light {
-    background: #f7f7f9;
-    color: #222;
-}
-
-/* ------------------------------------------------------------
-   ROOT EDITOR WRAPPER
------------------------------------------------------------- */
-#mystic-editor-root {
+/* MAIN LAYOUT 
+*/
+#editor-layout {
     display: flex;
-    flex-direction: column;
+    width: 100%;
     height: 100vh;
-    width: 100vw;
-    background: var(--mystic-bg);
-}
-
-/* ------------------------------------------------------------
-   TOP TOOLBAR
------------------------------------------------------------- */
-#mystic-editor-toolbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background: var(--mystic-bg-light);
-    border-bottom: 1px solid var(--mystic-border);
-    padding: 8px 12px;
-    height: 48px;
-}
-
-#mystic-editor-toolbar button {
-    background: var(--mystic-bg-panel);
-    border: 1px solid var(--mystic-border);
-    color: var(--mystic-text);
-    padding: 6px 10px;
-    border-radius: var(--mystic-radius);
-    cursor: pointer;
-    transition: var(--mystic-transition);
-}
-
-#mystic-editor-toolbar button:hover {
-    background: var(--mystic-accent);
-    border-color: var(--mystic-accent);
-    color: #fff;
-    box-shadow: 0 0 8px var(--mystic-accent-glow);
-}
-
-/* ------------------------------------------------------------
-/* MAIN LAYOUT GRID
------------------------------------------------------------- */
-#mystic-editor-layout {
-    display: grid;
-    grid-template-columns: 240px 1fr 260px;
-    grid-template-rows: 1fr;
-    height: calc(100vh - 60px - 28px); /* toolbar + status bar */
-}
-
-/* ------------------------------------------------------------
-   SIDEBARS
------------------------------------------------------------- */
-#mystic-editor-sidebar-left,
-#mystic-editor-sidebar-right {
-    background: var(--mystic-bg-light);
-    border-right: 1px solid var(--mystic-border);
-    overflow-y: auto;
-    padding: 10px;
-}
-
-/* RIGHT SIDEBAR (Toolbar / Properties Panel) */
-#mystic-editor-sidebar-right {
-    background: var(--mystic-bg-light);
-    border-left: 1px solid var(--mystic-border);
-    padding: 10px;
-
-    /* FIXES THE OVERFLOW */
-    height: 100%;
-    overflow-y: auto;
-
-    /* Ensures it behaves like a proper column */
-    display: flex;
-    flex-direction: column;
-}
-/* ------------------------------------------------------------
-   PANELS (Layers, History, Properties)
------------------------------------------------------------- */
-.panel {
-    background: var(--mystic-bg-panel);
-    border: 1px solid var(--mystic-border);
-    border-radius: var(--mystic-radius);
-    padding: 10px;
-    margin-bottom: 12px;
-}
-
-.panel h3 {
-    font-size: 14px;
-    margin-bottom: 8px;
-    color: var(--mystic-accent);
-}
-
-/* ------------------------------------------------------------
-   CANVAS CONTAINER
------------------------------------------------------------- */
-#mystic-editor-canvas-container {
-    position: relative;
-    background: #111;
     overflow: hidden;
-    display: flex;
-    align-items: center;
-    justify-content: center;
 }
-
-/* Canvas injected by JS */
-.mystic-editor-canvas {
-    background: transparent;
-    image-rendering: crisp-edges;
-}
-
-/* ------------------------------------------------------------
-   STATUS BAR
------------------------------------------------------------- */
-#mystic-editor-status-bar {
-    height: 28px;
-    background: var(--mystic-bg-light);
-    border-top: 1px solid var(--mystic-border);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 12px;
-    font-size: 12px;
-    color: var(--mystic-text-dim);
-}
-/* ==========================================================================
-   Mystic Editor — Buttons, Active States, Glow Effects
-   File: editor.css — Section 2 of 8
-   ========================================================================== */
-
-/* ------------------------------------------------------------
-   GENERIC BUTTON STYLES
------------------------------------------------------------- */
-button {
-    background: var(--mystic-bg-panel);
-    border: 1px solid var(--mystic-border);
-    color: var(--mystic-text);
-    padding: 6px 12px;
-    border-radius: var(--mystic-radius);
-    cursor: pointer;
-    font-size: 13px;
-    transition: var(--mystic-transition);
-    user-select: none;
-}
-
-button:hover {
-    background: var(--mystic-accent);
-    border-color: var(--mystic-accent);
-    color: #fff;
-    box-shadow: 0 0 8px var(--mystic-accent-glow);
-}
-
-/* ------------------------------------------------------------
-   ACTIVE TOOL BUTTON
------------------------------------------------------------- */
-button.active-tool {
-    background: var(--mystic-accent);
-    border-color: var(--mystic-accent);
-    color: #fff;
-    box-shadow: 0 0 10px var(--mystic-accent-glow);
-}
-
-/* ------------------------------------------------------------
-   ICON BUTTONS
------------------------------------------------------------- */
-button.icon-btn {
-    width: 32px;
-    height: 32px;
-    padding: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-button.icon-btn svg {
-    width: 18px;
-    height: 18px;
-    fill: currentColor;
-}
-
-/* ------------------------------------------------------------
-   GLOW EFFECT BUTTONS (Optional Extra)
------------------------------------------------------------- */
-button.glow {
-    background: var(--mystic-bg-panel);
-    border: 1px solid var(--mystic-accent);
-    box-shadow: 0 0 12px var(--mystic-accent-glow);
-}
-
-button.glow:hover {
-    background: var(--mystic-accent);
-    color: #fff;
-}
-
-/* ------------------------------------------------------------
-   TOOLBAR BUTTON GROUPS
------------------------------------------------------------- */
-.toolbar-left button,
-.toolbar-center button,
-.toolbar-right button {
-    margin-right: 6px;
-}
-
-.toolbar-left button:last-child,
-.toolbar-center button:last-child,
-.toolbar-right button:last-child {
-    margin-right: 0;
-}
-
-/* ------------------------------------------------------------
-   DISABLED BUTTONS
------------------------------------------------------------- */
-button:disabled {
-    opacity: 0.4;
-    cursor: not-allowed;
-    box-shadow: none;
-}
-
-/* ------------------------------------------------------------
-   TOGGLE BUTTONS (Preview, Theme, etc.)
------------------------------------------------------------- */
-button.toggle-active {
-    background: var(--mystic-success);
-    border-color: var(--mystic-success);
-    color: #fff;
-    box-shadow: 0 0 10px rgba(44, 182, 125, 0.5);
-}
-
-/* ------------------------------------------------------------
-   ACCENT OUTLINE BUTTONS
------------------------------------------------------------- */
-button.outline {
-    background: transparent;
-    border: 1px solid var(--mystic-accent);
-    color: var(--mystic-accent);
-}
-
-button.outline:hover {
-    background: var(--mystic-accent);
-    color: #fff;
-}
-
-/* ------------------------------------------------------------
-   DANGER BUTTONS
------------------------------------------------------------- */
-button.danger {
-    background: var(--mystic-danger);
-    border-color: var(--mystic-danger);
-    color: #fff;
-}
-
-button.danger:hover {
-    box-shadow: 0 0 10px rgba(255, 79, 79, 0.6);
-}
-
-/* ------------------------------------------------------------
-   BUTTON FOCUS RING (A11Y)
------------------------------------------------------------- */
-button:focus-visible {
-    outline: 2px solid var(--mystic-accent);
-    outline-offset: 2px;
-}
-/* ==========================================================================
-   Mystic Editor — Sidebars, Panels, Lists, Scrollbars
-   File: editor.css — Section 3 of 8
-   ========================================================================== */
-
-/* ------------------------------------------------------------
-   SIDEBAR BASE STYLES
------------------------------------------------------------- */
-#mystic-editor-sidebar-left,
-#mystic-editor-sidebar-right {
-    background: var(--mystic-bg-light);
-    border-color: var(--mystic-border);
-    padding: 12px;
-    overflow-y: auto;
-    scrollbar-width: thin;
-}
-
-/* ------------------------------------------------------------
-   CUSTOM SCROLLBARS
------------------------------------------------------------- */
-#mystic-editor-sidebar-left::-webkit-scrollbar,
-#mystic-editor-sidebar-right::-webkit-scrollbar {
-    width: 8px;
-}
-
-#mystic-editor-sidebar-left::-webkit-scrollbar-thumb,
-#mystic-editor-sidebar-right::-webkit-scrollbar-thumb {
-    background: var(--mystic-border);
-    border-radius: 4px;
-}
-
-#mystic-editor-sidebar-left::-webkit-scrollbar-thumb:hover,
-#mystic-editor-sidebar-right::-webkit-scrollbar-thumb:hover {
-    background: var(--mystic-accent);
-}
-
-/* ------------------------------------------------------------
-   PANEL BASE STYLES
------------------------------------------------------------- */
-.panel {
-    background: var(--mystic-bg-panel);
-    border: 1px solid var(--mystic-border);
-    border-radius: var(--mystic-radius);
-    padding: 10px;
-    margin-bottom: 14px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.25);
-}
-
-.panel h3 {
-    font-size: 14px;
-    margin-bottom: 10px;
-    color: var(--mystic-accent);
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-}
-
-/* ------------------------------------------------------------
-   LAYER LIST
------------------------------------------------------------- */
-.layer-list {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-}
-
-.layer-item {
-    background: var(--mystic-bg-light);
-    border: 1px solid var(--mystic-border);
-    border-radius: var(--mystic-radius);
-    padding: 6px 8px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    cursor: pointer;
-    transition: var(--mystic-transition);
-}
-
-.layer-item:hover {
-    background: var(--mystic-accent);
-    border-color: var(--mystic-accent);
-    color: #fff;
-    box-shadow: 0 0 8px var(--mystic-accent-glow);
-}
-
-.layer-item.active {
-    background: var(--mystic-accent);
-    border-color: var(--mystic-accent);
-    color: #fff;
-    box-shadow: 0 0 10px var(--mystic-accent-glow);
-}
-
-.layer-item .layer-visibility {
-    margin-right: 8px;
-    opacity: 0.8;
-}
-
-.layer-item .layer-options {
-    opacity: 0.6;
-    transition: var(--mystic-transition);
-}
-
-.layer-item:hover .layer-options {
-    opacity: 1;
-}
-
-/* ------------------------------------------------------------
-   HISTORY LIST
------------------------------------------------------------- */
-.history-list {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-}
-
-.history-item {
-    background: var(--mystic-bg-light);
-    border: 1px solid var(--mystic-border);
-    border-radius: var(--mystic-radius);
-    padding: 6px 8px;
-    display: flex;
-    justify-content: space-between;
-    font-size: 12px;
-    color: var(--mystic-text-dim);
-    transition: var(--mystic-transition);
-}
-
-.history-item:hover {
-    background: var(--mystic-bg-panel);
-    color: var(--mystic-text);
-}
-
-/* ------------------------------------------------------------
-   PROPERTIES PANEL
------------------------------------------------------------- */
-.properties-content {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
-.property-row {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-}
-
-.property-label {
-    font-size: 12px;
-    color: var(--mystic-text-dim);
-}
-
-.property-input {
-    background: var(--mystic-bg-light);
-    border: 1px solid var(--mystic-border);
-    padding: 6px;
-    border-radius: var(--mystic-radius);
-    color: var(--mystic-text);
-    transition: var(--mystic-transition);
-}
-
-.property-input:focus {
-    border-color: var(--mystic-accent);
-    box-shadow: 0 0 8px var(--mystic-accent-glow);
-    outline: none;
-}/* ==========================================================================
-   Mystic Editor — Canvas Overlays, Rulers, Guides, Selection, Handles
-   File: editor.css — Section 4 of 8
-   ========================================================================== */
-
-/* ------------------------------------------------------------
-   OVERLAY CANVAS BASE
------------------------------------------------------------- */
-.overlay-canvas {
-    position: absolute;
-    top: 0;
-    left: 0;
-    pointer-events: none;
-    width: 100%;
-    height: 100%;
-}
-
-/* ------------------------------------------------------------
-   RULERS (Top + Left)
------------------------------------------------------------- */
-.mystic-ruler {
-    position: absolute;
-    background: var(--mystic-bg-light);
-    border-color: var(--mystic-border);
-    z-index: 50;
-    font-size: 10px;
-    color: var(--mystic-text-dim);
-    user-select: none;
-}
-
-#mystic-ruler-top {
-    top: 0;
-    left: 0;
-    height: 24px;
-    width: 100%;
-    border-bottom: 1px solid var(--mystic-border);
-}
-
-#mystic-ruler-left {
-    top: 0;
-    left: 0;
-    width: 24px;
-    height: 100%;
-    border-right: 1px solid var(--mystic-border);
-}
-
-/* ------------------------------------------------------------
-   GRID OVERLAY
------------------------------------------------------------- */
-#mystic-grid-overlay {
-    opacity: 0.25;
-}
-
-body.mystic-theme-light #mystic-grid-overlay {
-    opacity: 0.4;
-}
-
-/* ------------------------------------------------------------
-   SMART GUIDES
------------------------------------------------------------- */
-#mystic-guides-overlay {
-    z-index: 60;
-}
-
-.guide-line {
-    stroke: var(--mystic-accent);
-    stroke-width: 1px;
-    opacity: 0.8;
-}
-
-/* ------------------------------------------------------------
-   MEASUREMENT OVERLAY
------------------------------------------------------------- */
-#mystic-measure-overlay {
-    z-index: 65;
-}
-
-.measure-line {
-    stroke: var(--mystic-success);
-    stroke-width: 1px;
-}
-
-.measure-label {
-    position: absolute;
-    background: var(--mystic-bg-panel);
-    border: 1px solid var(--mystic-border);
-    padding: 2px 4px;
-    font-size: 10px;
-    border-radius: var(--mystic-radius);
-    color: var(--mystic-text);
-    pointer-events: none;
-}
-
-/* ------------------------------------------------------------
-   SELECTION BOX
------------------------------------------------------------- */
-#mystic-selection-overlay {
-    z-index: 70;
-}
-
-.selection-box {
-    position: absolute;
-    border: 1px dashed var(--mystic-accent);
-    background: rgba(127, 90, 240, 0.1);
-    pointer-events: none;
-    border-radius: var(--mystic-radius);
-}
-
-/* ------------------------------------------------------------
-   TRANSFORM HANDLES
------------------------------------------------------------- */
-#mystic-transform-overlay {
-    z-index: 75;
-}
-
-.transform-handle {
-    position: absolute;
-    width: 10px;
-    height: 10px;
-    background: var(--mystic-accent);
-    border: 1px solid #fff;
-    border-radius: 50%;
-    box-shadow: 0 0 6px var(--mystic-accent-glow);
-    pointer-events: auto;
-    cursor: pointer;
-}
-
-.transform-handle:hover {
-    background: #fff;
-    border-color: var(--mystic-accent);
-}
-
-/* ------------------------------------------------------------
-   CURSOR COORDINATES DISPLAY
------------------------------------------------------------- */
-.coords-display {
-    position: absolute;
-    bottom: 10px;
-    left: 10px;
-    background: var(--mystic-bg-panel);
-    border: 1px solid var(--mystic-border);
-    padding: 4px 8px;
-    font-size: 11px;
-    border-radius: var(--mystic-radius);
-    color: var(--mystic-text-dim);
-    z-index: 100;
-}
-
-/* ------------------------------------------------------------
-   ZOOM INDICATOR
------------------------------------------------------------- */
-.zoom-display {
-    position: absolute;
-    bottom: 10px;
-    right: 10px;
-    background: var(--mystic-bg-panel);
-    border: 1px solid var(--mystic-border);
-    padding: 4px 8px;
-    font-size: 11px;
-    border-radius: var(--mystic-radius);
-    color: var(--mystic-text);
-    z-index: 100;
-    box-shadow: 0 0 6px rgba(0,0,0,0.4);
-}
-/* ==========================================================================
-   Mystic Editor — Floating Palettes, Detachable Panels, Command Palette
-   File: editor.css — Section 5 of 8
-   ========================================================================== */
-
-/* ------------------------------------------------------------
-   FLOATING PALETTES
------------------------------------------------------------- */
-#misty-floating-palettes,
-#misty-floating-palettes * {
-    pointer-events: auto;
-}
-
-.floating-palette {
-    position: absolute;
-    top: 80px;
-    left: 80px;
-    width: 220px;
-    background: var(--mystic-bg-panel);
-    border: 1px solid var(--mystic-border);
-    border-radius: var(--mystic-radius-lg);
-    padding: 10px;
-    box-shadow: 0 0 12px rgba(0,0,0,0.4);
-    z-index: 200;
-    display: none;
-}
-
-.floating-palette.active {
-    display: block;
-}
-
-.floating-palette h4 {
-    font-size: 13px;
-    margin-bottom: 8px;
-    color: var(--mystic-accent);
-}
-
-/* ------------------------------------------------------------
-   DETACHABLE PANELS
------------------------------------------------------------- */
-.detached-panel {
-    position: absolute;
-    top: 120px;
-    left: 120px;
-    width: 260px;
-    background: var(--mystic-bg-panel);
-    border: 1px solid var(--mystic-border);
-    border-radius: var(--mystic-radius-lg);
-    box-shadow: 0 0 14px rgba(0,0,0,0.45);
-    z-index: 250;
-    display: none;
-}
-
-.detached-panel.active {
-    display: block;
-}
-
-.detached-panel header {
-    background: var(--mystic-bg-light);
-    padding: 8px;
-    border-bottom: 1px solid var(--mystic-border);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-radius: var(--mystic-radius-lg) var(--mystic-radius-lg) 0 0;
-}
-
-.detached-panel header span {
-    color: var(--mystic-accent);
-    font-size: 13px;
-}
-
-.detached-panel .close-panel {
-    background: transparent;
-    border: none;
-    color: var(--mystic-text);
-    font-size: 16px;
-    cursor: pointer;
-}
-
-.detached-panel .panel-body {
-    padding: 10px;
-    max-height: 300px;
-    overflow-y: auto;
-}
-
-/* ------------------------------------------------------------
-   COMMAND PALETTE
------------------------------------------------------------- */
-#mystic-command-palette {
-    position: absolute;
-    top: 20%;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 420px;
-    background: var(--mystic-bg-panel);
-    border: 1px solid var(--mystic-border);
-    border-radius: var(--mystic-radius-lg);
-    box-shadow: 0 0 20px rgba(127, 90, 240, 0.4);
-    z-index: 300;
-    padding: 12px;
-}
-
-#mystic-command-palette.hidden {
-    display: none;
-}
-
-.command-palette-box {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
-.command-input {
-    background: var(--mystic-bg-light);
-    border: 1px solid var(--mystic-border);
-    padding: 8px;
-    border-radius: var(--mystic-radius);
-    color: var(--mystic-text);
-    font-size: 14px;
-}
-
-.command-results {
-    list-style: none;
-    max-height: 240px;
-    overflow-y: auto;
-    padding-right: 4px;
-}
-
-.command-item {
-    padding: 6px 8px;
-    border-radius: var(--mystic-radius);
-    display: flex;
-    justify-content: space-between;
-    cursor: pointer;
-    transition: var(--mystic-transition);
-}
-
-.command-item:hover {
-    background: var(--mystic-accent);
-    color: #fff;
-}
-
-/* ------------------------------------------------------------
-   QUICK ACTIONS BAR
------------------------------------------------------------- */
-#mystic-quick-actions {
-    position: absolute;
-    top: 60px;
-    right: 20px;
-    display: flex;
-    gap: 6px;
-    z-index: 150;
-}
-
-.quick-action-btn {
-    background: var(--mystic-bg-panel);
-    border: 1px solid var(--mystic-border);
-    padding: 6px 10px;
-    border-radius: var(--mystic-radius);
-    color: var(--mystic-text);
-    cursor: pointer;
-    transition: var(--mystic-transition);
-}
-
-.quick-action-btn:hover {
-    background: var(--mystic-accent);
-    color: #fff;
-    box-shadow: 0 0 8px var(--mystic-accent-glow);
-}
-
-/* ------------------------------------------------------------
-   PERFORMANCE STATS OVERLAY
------------------------------------------------------------- */
-#mystic-performance-stats {
-    position: absolute;
-    bottom: 50px;
-    right: 20px;
-    background: var(--mystic-bg-panel);
-    border: 1px solid var(--mystic-border);
-    padding: 6px 10px;
-    border-radius: var(--mystic-radius);
-    font-size: 12px;
-    color: var(--mystic-text-dim);
-    z-index: 150;
-}
-
-#mystic-performance-stats.hidden {
-    display: none;
-}
-
-#mystic-performance-stats .fps {
-    color: var(--mystic-success);
-}
-
-#mystic-performance-stats .memory {
-    color: var(--mystic-accent);
-}
-/* ------------------------------------------------------------
-   NOTIFICATIONS / TOAST ALERTS
------------------------------------------------------------- */
-#mystic-toast-container {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    z-index: 400;
-    pointer-events: none;
-}
-
-.mystic-toast {
-    min-width: 240px;
-    padding: 10px 14px;
-    border-radius: var(--mystic-radius);
-    background: var(--mystic-bg-panel);
-    border: 1px solid var(--mystic-border);
-    color: var(--mystic-text);
-    box-shadow: 0 0 12px rgba(0,0,0,0.25);
-    opacity: 0;
-    transform: translateY(-10px);
-    animation: toast-slide-in 0.35s ease forwards;
-    pointer-events: auto;
-}
-
-.mystic-toast.success {
-    border-color: var(--mystic-success);
-    box-shadow: 0 0 12px var(--mystic-success-glow);
-}
-
-.mystic-toast.error {
-    border-color: var(--mystic-danger);
-    box-shadow: 0 0 12px var(--mystic-danger-glow);
-}
-
-.mystic-toast.warning {
-    border-color: var(--mystic-warning);
-    box-shadow: 0 0 12px var(--mystic-warning-glow);
-}
-
-@keyframes toast-slide-in {
-    from {
-        opacity: 0;
-        transform: translateY(-10px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-@keyframes toast-fade-out {
-    from {
-        opacity: 1;
-        transform: translateY(0);
-    }
-    to {
-        opacity: 0;
-        transform: translateY(-10px);
-    }
-}
-/* ------------------------------------------------------------
-   MODAL WINDOWS
------------------------------------------------------------- */
-.mystic-modal-backdrop {
+#app-bg {
     position: fixed;
-    inset: 0;
-    background: rgba(10, 0, 25, 0.65);
-    backdrop-filter: blur(6px);
-    z-index: 500;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    overflow: hidden;
+}
+
+#app-bg .bg-image {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    height: 115%;   /* ← THIS is the magic */
+    width: auto;
+    transform: translate(-50%, -50%);
+}
+
+/* SIDE COLUMNS */
+.side-column {
+    width: 300px;
     display: flex;
+    flex-direction: column;
+    gap: 0px;
+    padding: 0px;
+}
+/* TOOL BOXES */
+.tool-box {
+    width: 300px;
+    height: 400px;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+.tool-box h2 {
+    text-align: center;
+    margin: 0;
+    padding: 0px 0px;
+    font-size: 14px;
+    color: #fff;
+    background: rgba(0,0,0,0.0);
+    border-bottom: 0px solid rgba(255,255,255,0.0);
+    text-shadow: 0 0 4px #000;
+}
+#file-box { background-image: url("../images/Copilot_20260414_074112.png"); }
+#adjustments-box { background-image: url("../images/Copilot_20260414_074112.png"); }
+#filters-box { background-image: url("../images/Copilot_20260414_074112.png"); }
+#tools-box { background-image: url("../images/Copilot_20260414_074112.png"); }
+#ai-generator-box { background-image: url("../images/Copilot_20260414_074112.png"); }
+#layers-box { background-image: url("../images/Copilot_20260414_074112.png"); }
+#effects-box { background-image: url("../images/Copilot_20260414_074112.png"); }
+#transform-box { background-image: url("../images/Copilot_20260414_074112.png"); }
+#history-box { background-image: url("../images/Copilot_20260414_074112.png"); }
+#properties-box { background-image: url("../images/Copilot_20260414_074112.png"); }
+
+/* INNER SCROLL AREA */
+.tool-content {
+    flex: 1;
+    overflow-y: auto;
+    padding: 10px 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+/* CANVAS AREA */
+#canvas-area {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+#main-canvas {
+    max-width: 100%;
+    max-height: 100%;
+}
+
+/* AI MODAL */
+#ai-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.7);
     justify-content: center;
     align-items: center;
 }
 
-.mystic-modal {
-    width: 480px;
-    max-width: 90%;
-    background: var(--mystic-bg-panel);
-    border: 1px solid var(--mystic-border);
-    border-radius: var(--mystic-radius-lg);
+#ai-modal-content {
+    width: 300px;
     padding: 20px;
-    box-shadow: 0 0 25px rgba(127, 90, 240, 0.4);
-    animation: modal-pop 0.25s ease;
-}
-
-.mystic-modal h2 {
-    margin-bottom: 12px;
-    color: var(--mystic-text);
-}
-
-.mystic-modal .modal-actions {
-    margin-top: 20px;
+    background-size: cover;
+    background-position: center;
     display: flex;
-    justify-content: flex-end;
+    flex-direction: column;
     gap: 10px;
 }
 
-.mystic-btn {
-    padding: 8px 14px;
-    border-radius: var(--mystic-radius);
-    border: 1px solid var(--mystic-border);
-    background: var(--mystic-bg-light);
-    color: var(--mystic-text);
-    cursor: pointer;
-    transition: var(--mystic-transition);
-}
-
-.mystic-btn:hover {
-    background: var(--mystic-accent);
-    color: #fff;
-    box-shadow: 0 0 10px var(--mystic-accent-glow);
-}
-
-@keyframes modal-pop {
-    from {
-        opacity: 0;
-        transform: scale(0.92);
-    }
-    to {
-        opacity: 1;
-        transform: scale(1);
-    }
-}
-/* ------------------------------------------------------------
-   CONTEXT MENUS
------------------------------------------------------------- */
-.mystic-context-menu {
-    position: absolute;
-    background: var(--mystic-bg-panel);
-    border: 1px solid var(--mystic-border);
-    border-radius: var(--mystic-radius);
-    box-shadow: 0 0 15px rgba(0,0,0,0.35);
-    padding: 6px 0;
-    width: 180px;
-    z-index: 600;
-    display: none;
-}
-
-.mystic-context-menu.visible {
-    display: block;
-}
-
-.mystic-context-item {
-    padding: 8px 12px;
-    color: var(--mystic-text);
-    cursor: pointer;
-    transition: var(--mystic-transition);
-}
-
-.mystic-context-item:hover {
-    background: var(--mystic-accent);
-    color: #fff;
-}
-/* ------------------------------------------------------------
-   CANVAS GRID / RULERS / GUIDES
------------------------------------------------------------- */
-
-/* Canvas Grid */
-#mystic-canvas-grid {
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    background-size: 20px 20px;
-    background-image:
-        linear-gradient(to right, rgba(255,255,255,0.05) 1px, transparent 1px),
-        linear-gradient(to bottom, rgba(255,255,255,0.05) 1px, transparent 1px);
-    z-index: 50;
-}
-
-#mystic-canvas-grid.hidden {
-    display: none;
-}
-
-/* Rulers */
-#mystic-ruler-top,
-#mystic-ruler-left {
-    position: absolute;
-    background: var(--mystic-bg-panel);
-    border-color: var(--mystic-border);
-    z-index: 120;
-    font-size: 10px;
-    color: var(--mystic-text-dim);
-    user-select: none;
-}
-
-#mystic-ruler-top {
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 24px;
-    border-bottom: 1px solid var(--mystic-border);
-}
-
-#mystic-ruler-left {
-    top: 0;
-    bottom: 0;
-    left: 0;
-    width: 24px;
-    border-right: 1px solid var(--mystic-border);
-}
-
-/* Guide Lines */
-.mystic-guide-line {
-    position: absolute;
-    background: var(--mystic-accent);
-    opacity: 0.6;
-    z-index: 200;
-    pointer-events: none;
-}
-
-.mystic-guide-line.horizontal {
-    height: 1px;
+#ai-prompt {
     width: 100%;
+    height: 120px;
+    resize: none;
+    white-space: normal;
+    word-wrap: break-word;
+    overflow-y: auto;
 }
 
-.mystic-guide-line.vertical {
-    width: 1px;
-    height: 100%;
+.hidden {
+    display: none;
 }
+/* /editor/css/crop.css */
 
-/* Snapping Indicator */
-.mystic-snap-point {
+#crop-box {
     position: absolute;
-    width: 8px;
-    height: 8px;
-    background: var(--mystic-accent);
-    border-radius: 50%;
-    box-shadow: 0 0 10px var(--mystic-accent-glow);
-    z-index: 250;
-    pointer-events: none;
-}
-/* ------------------------------------------------------------
-   SELECTION BOX & TRANSFORM HANDLES
------------------------------------------------------------- */
-
-#mystic-selection-box {
-    position: absolute;
-    border: 1px dashed var(--mystic-accent);
-    pointer-events: none;
-    z-index: 300;
-    box-shadow: 0 0 10px var(--mystic-accent-glow);
+    border: 2px solid #00e0ff;
+    box-shadow: 0 0 20px rgba(0,255,255,0.4);
+    pointer-events: auto;
 }
 
-.mystic-handle {
-    position: absolute;
-    width: 10px;
-    height: 10px;
-    background: var(--mystic-bg-light);
-    border: 1px solid var(--mystic-accent);
-    border-radius: 2px;
-    z-index: 310;
-    cursor: pointer;
-}
-
-.mystic-handle:hover {
-    background: var(--mystic-accent);
-    box-shadow: 0 0 8px var(--mystic-accent-glow);
-}
-
-/* Handle Positions */
-.mystic-handle.nw { top: -6px; left: -6px; cursor: nwse-resize; }
-.mystic-handle.ne { top: -6px; right: -6px; cursor: nesw-resize; }
-.mystic-handle.sw { bottom: -6px; left: -6px; cursor: nesw-resize; }
-.mystic-handle.se { bottom: -6px; right: -6px; cursor: nwse-resize; }
-
-.mystic-handle.n  { top: -6px; left: 50%; transform: translateX(-50%); cursor: ns-resize; }
-.mystic-handle.s  { bottom: -6px; left: 50%; transform: translateX(-50%); cursor: ns-resize; }
-.mystic-handle.e  { right: -6px; top: 50%; transform: translateY(-50%); cursor: ew-resize; }
-.mystic-handle.w  { left: -6px; top: 50%; transform: translateY(-50%); cursor: ew-resize; }
-
-/* Rotate Handle */
-.mystic-rotate-handle {
-    position: absolute;
-    top: -28px;
-    left: 50%;
-    transform: translateX(-50%);
+.crop-handle {
     width: 14px;
     height: 14px;
-    background: var(--mystic-accent);
+    background: #00e0ff;
     border-radius: 50%;
-    box-shadow: 0 0 10px var(--mystic-accent-glow);
-    cursor: grab;
-    z-index: 320;
-}
-
-.mystic-rotate-handle:active {
-    cursor: grabbing;
-}
-/* ------------------------------------------------------------
-   DRAG & DROP HOVER STATES
------------------------------------------------------------- */
-
-#mystic-drag-overlay {
     position: absolute;
-    inset: 0;
-    background: rgba(127, 90, 240, 0.15);
-    border: 2px dashed var(--mystic-accent);
-    border-radius: var(--mystic-radius-lg);
-    display: none;
-    z-index: 350;
-    pointer-events: none;
 }
 
-#mystic-drag-overlay.visible {
-    display: block;
+.crop-handle.nw { top: -7px; left: -7px; }
+.crop-handle.ne { top: -7px; right: -7px; }
+.crop-handle.sw { bottom: -7px; left: -7px; }
+.crop-handle.se { bottom: -7px; right: -7px; }
+
+#crop-panel {
+    padding: 15px;
 }
 
-.mystic-drag-target {
-    outline: 2px dashed var(--mystic-accent);
-    outline-offset: 4px;
-    transition: outline 0.2s ease;
-}
-
-.mystic-drag-target.active {
-    outline-color: var(--mystic-success);
-    box-shadow: 0 0 12px var(--mystic-success-glow);
-}
-/* ------------------------------------------------------------
-   TOOLTIP SYSTEM
------------------------------------------------------------- */
-
-.mystic-tooltip {
-    position: absolute;
-    background: var(--mystic-bg-panel);
-    color: var(--mystic-text);
-    padding: 6px 10px;
-    border-radius: var(--mystic-radius);
-    border: 1px solid var(--mystic-border);
-    font-size: 12px;
-    white-space: nowrap;
-    box-shadow: 0 0 12px rgba(0,0,0,0.35);
-    opacity: 0;
-    transform: translateY(-6px);
-    pointer-events: none;
-    z-index: 700;
-    transition: opacity 0.15s ease, transform 0.15s ease;
-}
-
-.mystic-tooltip.visible {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-.mystic-tooltip.accent {
-    border-color: var(--mystic-accent);
-    box-shadow: 0 0 12px var(--mystic-accent-glow);
-}
-/* ------------------------------------------------------------
-   LOADING SCREEN / PROGRESS BAR
------------------------------------------------------------- */
-
-#mystic-loading-screen {
-    position: absolute;
-    inset: 0;
-    background: rgba(10, 0, 25, 0.85);
-    backdrop-filter: blur(4px);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    z-index: 900;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.25s ease;
-}
-
-#mystic-loading-screen.visible {
-    opacity: 1;
-    pointer-events: all;
-}
-
-.mystic-loading-spinner {
-    width: 48px;
-    height: 48px;
-    border: 4px solid rgba(255,255,255,0.15);
-    border-top-color: var(--mystic-accent);
-    border-radius: 50%;
-    animation: mystic-spin 0.9s linear infinite;
-    margin-bottom: 20px;
-}
-
-@keyframes mystic-spin {
-    to { transform: rotate(360deg); }
-}
-
-.mystic-progress-bar {
-    width: 240px;
-    height: 6px;
-    background: rgba(255,255,255,0.1);
-    border-radius: var(--mystic-radius);
-    overflow: hidden;
-    margin-top: 10px;
-}
-
-.mystic-progress-fill {
-    height: 100%;
-    width: 0%;
-    background: var(--mystic-accent);
-    box-shadow: 0 0 10px var(--mystic-accent-glow);
-    transition: width 0.25s ease;
-}
-/* ------------------------------------------------------------
-   ERROR OVERLAY (CRASH SHIELD)
------------------------------------------------------------- */
-
-#mystic-error-overlay {
-    position: absolute;
-    inset: 0;
-    background: rgba(40, 0, 60, 0.85);
-    backdrop-filter: blur(6px);
-    display: none;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-    text-align: center;
-    padding: 20px;
-}
-
-#mystic-error-overlay.visible {
-    display: flex;
-}
-
-#mystic-error-overlay h1 {
-    color: var(--mystic-danger);
+.dpi-indicator {
     margin-bottom: 10px;
-    text-shadow: 0 0 12px var(--mystic-danger-glow);
 }
 
-#mystic-error-overlay p {
-    color: var(--mystic-text);
-    max-width: 420px;
-    margin-bottom: 20px;
-}
+#crop-dpi-status.good { color: #00ff88; }
+#crop-dpi-status.warn { color: #ffcc00; }
+#crop-dpi-status.bad { color: #ff4444; }
 
-.mystic-error-btn {
-    padding: 10px 16px;
-    background: var(--mystic-bg-light);
-    border: 1px solid var(--mystic-border);
-    border-radius: var(--mystic-radius);
-    color: var(--mystic-text);
-    cursor: pointer;
-    transition: var(--mystic-transition);
-}
-
-.mystic-error-btn:hover {
-    background: var(--mystic-accent);
-    color: #fff;
-    box-shadow: 0 0 12px var(--mystic-accent-glow);
-}
-/* ------------------------------------------------------------
-   RESPONSIVE RULES
------------------------------------------------------------- */
-
-@media (max-width: 1200px) {
-    #mystic-sidebar {
-        width: 220px;
-    }
-}
-
-@media (max-width: 900px) {
-    #mystic-sidebar {
-        display: none;
-    }
-
-    #mystic-toolbar {
-        top: 10px;
-        left: 50%;
-        transform: translateX(-50%);
-    }
-
-    #mystic-quick-actions {
-        top: auto;
-        bottom: 20px;
-        right: 20px;
-    }
-}
-
-@media (max-width: 600px) {
-    #mystic-toolbar {
-        scale: 0.85;
-    }
-
-    .mystic-modal {
-        width: 90%;
-    }
-
-    .mystic-toast {
-        min-width: 180px;
-    }
-}.ai-input {
-    width: 100%;
-    padding: 6px;
-    margin-top: 4px;
-    border-radius: 6px;
-    border: 1px solid #4b2b7a;
-    background: #12091f;
-    color: #f5e9ff;
-}
-
-.ai-status {
-    margin-top: 6px;
-    font-size: 0.8rem;
-    min-height: 1em;
-    color: #c9a7ff;
-}
