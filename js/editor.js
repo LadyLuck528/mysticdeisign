@@ -1,370 +1,223 @@
-/* --------------------------------------------------
-   product.js — Product Page Logic for Mystic POD
-   - Variant switching
-   - Price updates
-   - Upload handling
-   - DPI check
-   - Mockup preview
-   - Add to cart
--------------------------------------------------- */
+// Core Mystic Editor engine: canvas, objects, layers, AI hook
 
-(function () {
-    "use strict";
+const MysticEditor = {
+    canvas: null,
+    ctx: null,
+    objects: [],      // { id, type, x, y, w, h, text, img, selected }
+    activeObjectId: null,
+    isDragging: false,
+    dragOffsetX: 0,
+    dragOffsetY: 0,
+    zoom: 1
+};
 
-    const PODApp = window.PODApp;
-    const { $, $$, on, delegate } = PODApp.dom;
-    const Events = PODApp.events;
+function initCanvas() {
+    const canvas = document.getElementById('design-canvas');
+    MysticEditor.canvas = canvas;
+    MysticEditor.ctx = canvas.getContext('2d');
 
-    let productData = null;
+    canvas.addEventListener('mousedown', onCanvasMouseDown);
+    canvas.addEventListener('mousemove', onCanvasMouseMove);
+    canvas.addEventListener('mouseup', onCanvasMouseUp);
+    canvas.addEventListener('mouseleave', onCanvasMouseUp);
 
-    /* -------------------------
-       INIT PRODUCT PAGE
-    -------------------------- */
+    redrawCanvas();
+}
 
-    function initProductPage() {
-        const container = $("[data-product]");
-        if (!container) return;
+function redrawCanvas() {
+    const { ctx, canvas, objects, zoom } = MysticEditor;
+    if (!ctx) return;
 
-        try {
-            productData = JSON.parse(container.dataset.product);
-        } catch (e) {
-            return PODApp.handleError(e, "Invalid product JSON");
+    ctx.save();
+    ctx.setTransform(zoom, 0, 0, zoom, 0, 0);
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = '#ffffff';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    objects.forEach(obj => {
+        if (obj.type === 'text') {
+            ctx.font = `${obj.fontSize || 48}px ${obj.fontFamily || 'Arial'}`;
+            ctx.fillStyle = obj.color || '#000000';
+            ctx.fillText(obj.text, obj.x, obj.y);
+        } else if (obj.type === 'image' && obj.img) {
+            ctx.drawImage(obj.img, obj.x, obj.y, obj.w, obj.h);
+        } else if (obj.type === 'rect') {
+            ctx.fillStyle = obj.fill || '#cccccc';
+            ctx.fillRect(obj.x, obj.y, obj.w, obj.h);
         }
-
-        initVariantSelector();
-        initUploadButton();
-        initAddToCart();
-        initMockupPreview();
-
-        if (PODApp.config.debug) {
-            console.log("%cProduct Page Ready", "color:#ff7a00;font-weight:bold;");
+        if (obj.selected) {
+            ctx.strokeStyle = '#b06cff';
+            ctx.lineWidth = 2;
+            ctx.strokeRect(obj.x, obj.y, obj.w || 120, obj.h || 60);
         }
-    }
-
-    document.addEventListener("DOMContentLoaded", initProductPage);
-
-    /* -------------------------
-       VARIANT SWITCHING
-    -------------------------- */
-
-    function initVariantSelector() {
-        delegate(document, "[data-variant]", "click", (e, btn) => {
-            const variantId = btn.dataset.variant;
-
-            // Update active state
-            $$("[data-variant]").forEach(v => v.classList.remove("active"));
-            btn.classList.add("active");
-
-            // Update price
-            const variant = productData.variants.find(v => v.id === variantId);
-            if (variant) {
-                $("[data-price]").textContent = `$${variant.price.toFixed(2)}`;
-            }
-
-            // Update mockup
-            if (variant?.mockup) {
-                updateMockup(variant.mockup);
-            }
-        });
-    }
-
-    /* -------------------------
-       UPLOAD BUTTON
-    -------------------------- */
-
-    function initUploadButton() {
-        const uploadInput = $("#uploadInput");
-        const uploadBtn = $("#uploadBtn");
-
-        if (!uploadInput || !uploadBtn) return;
-
-        on(uploadBtn, "click", () => uploadInput.click());
-
-        on(uploadInput, "change", async () => {
-            const file = uploadInput.files[0];
-            if (!file) return;
-
-            // Basic DPI check
-            const isValid = await checkDPI(file);
-            if (!isValid) {
-                PODApp.ui.showToast("Image resolution may be too low for printing", "warning");
-            }
-
-            // Preview
-            previewUpload(file);
-
-            // Save to session
-            PODApp.storage.set("uploadedImage", {
-                name: file.name,
-                size: file.size,
-                type: file.type
-            });
-
-            Events.emit("product:imageSelected", file);
-        });
-    }
-
-    /* -------------------------
-       DPI CHECK
-    -------------------------- */
-
-    async function checkDPI(file) {
-        return new Promise(resolve => {
-            const img = new Image();
-            img.onload = () => {
-                const dpi = img.width / 10; // rough estimate
-                resolve(dpi >= 150);
-            };
-            img.src = URL.createObjectURL(file);
-        });
-    }
-
-    /* -------------------------
-       UPLOAD PREVIEW
-    -------------------------- */
-
-    function previewUpload(file) {
-        const preview = $("#uploadPreview");
-        if (!preview) return;
-
-        const reader = new FileReader();
-        reader.onload = e => {
-            preview.src = e.target.result;
-            preview.classList.add("show");
-        };
-        reader.readAsDataURL(file);
-    }
-
-    /* -------------------------
-       MOCKUP PREVIEW
-    -------------------------- */
-
-    function initMockupPreview() {
-        const defaultMockup = productData.mockup || null;
-        if (defaultMockup) updateMockup(defaultMockup);
-    }
-
-    function updateMockup(url) {
-        const mockup = $("#mockupImage");
-        if (mockup) mockup.src = url;
-    }
-
-    /* -------------------------
-       ADD TO CART
-    -------------------------- */
-
-    function initAddToCart() {
-        const btn = $("#addToCart");
-        if (!btn) return;
-
-        on(btn, "click", () => {
-            const variantBtn = $("[data-variant].active");
-            if (!variantBtn) {
-                return PODApp.ui.showToast("Please select a variant", "warning");
-            }
-
-            const variantId = variantBtn.dataset.variant;
-            const variant = productData.variants.find(v => v.id === variantId);
-
-            const uploaded = PODApp.storage.get("uploadedImage");
-
-            const cartItem = {
-                id: crypto.randomUUID(),
-                productId: productData.id,
-                title: productData.title,
-                variantId: variant.id,
-                variantName: variant.name,
-                price: variant.price,
-                mockup: variant.mockup || productData.mockup,
-                uploadedImage: uploaded || null,
-                qty: 1
-            };
-
-            // Add to cart
-            const cart = PODApp.storage.get("cart", []);
-            cart.push(cartItem);
-            PODApp.storage.set("cart", cart);
-
-            PODApp.ui.showToast("Added to cart", "success");
-            Events.emit("cart:updated", cart);
-        });
-    }
-
-})();
-/* --------------------------------------------------
-   editor.js — Phase 2 (Advanced Tools)
-   - Scaling handles
-   - Rotation handle
-   - Bounding box
-   - Snapping
-   - Centering tools
-   - Delete layer
-   - Undo / redo
-   - Keyboard shortcuts
--------------------------------------------------- */
-
-(function () {
-    "use strict";
-
-    const PODApp = window.PODApp;
-    const { $, $$, on } = PODApp.dom;
-    const Events = PODApp.events;
-    const Editor = PODApp.editor;
-
-    /* -------------------------
-       UNDO / REDO STACK
-    -------------------------- */
-
-    Editor.history = [];
-    Editor.future = [];
-
-    function saveState() {
-        Editor.history.push(JSON.stringify(Editor.layers));
-        Editor.future = [];
-    }
-
-    Editor.undo = function () {
-        if (Editor.history.length === 0) return;
-        Editor.future.push(JSON.stringify(Editor.layers));
-        Editor.layers = JSON.parse(Editor.history.pop());
-        PODApp.editor.activeLayer = null;
-        render();
-    };
-
-    Editor.redo = function () {
-        if (Editor.future.length === 0) return;
-        Editor.history.push(JSON.stringify(Editor.layers));
-        Editor.layers = JSON.parse(Editor.future.pop());
-        PODApp.editor.activeLayer = null;
-        render();
-    };
-
-    /* -------------------------
-       BOUNDING BOX + HANDLES
-    -------------------------- */
-
-    function drawBoundingBox(layer) {
-        const ctx = Editor.ctx;
-
-        const x = layer.x;
-        const y = layer.y;
-        const w = layer.w * layer.scale;
-        const h = layer.h * layer.scale;
-
-        ctx.save();
-        ctx.strokeStyle = "#ffffffaa";
-        ctx.lineWidth = 2;
-        ctx.strokeRect(x, y, w, h);
-
-        // Handles
-        const size = 12;
-        const handles = [
-            { x: x, y: y },                     // top-left
-            { x: x + w, y: y },                 // top-right
-            { x: x, y: y + h },                 // bottom-left
-            { x: x + w, y: y + h }              // bottom-right
-        ];
-
-        ctx.fillStyle = "#ffffff";
-        handles.forEach(h => {
-            ctx.fillRect(h.x - size / 2, h.y - size / 2, size, size);
-        });
-
-        // Rotation handle
-        ctx.beginPath();
-        ctx.arc(x + w / 2, y - 30, 8, 0, Math.PI * 2);
-        ctx.fill();
-
-        ctx.restore();
-    }
-
-    /* -------------------------
-       SCALING + ROTATION LOGIC
-    -------------------------- */
-
-    Editor.action = null; // "drag" | "scale" | "rotate"
-
-    function detectHandle(layer, x, y) {
-        const w = layer.w * layer.scale;
-        const h = layer.h * layer.scale;
-
-        const handles = [
-            { name: "tl", x: layer.x, y: layer.y },
-            { name: "tr", x: layer.x + w, y: layer.y },
-            { name: "bl", x: layer.x, y: layer.y + h },
-            { name: "br", x: layer.x + w, y: layer.y + h }
-        ];
-
-        for (let h of handles) {
-            if (Math.abs(x - h.x) < 12 && Math.abs(y - h.y) < 12) {
-                return { type: "scale", corner: h.name };
-            }
-        }
-
-        // Rotation handle
-        if (Math.abs(x - (layer.x + w / 2)) < 12 && Math.abs(y - (layer.y - 30)) < 12) {
-            return { type: "rotate" };
-        }
-
-        return null;
-    }
-
-    /* -------------------------
-       CENTERING TOOLS
-    -------------------------- */
-
-    Editor.centerHorizontally = function () {
-        if (!Editor.activeLayer) return;
-        Editor.activeLayer.x = (Editor.width - Editor.activeLayer.w * Editor.activeLayer.scale) / 2;
-        saveState();
-        render();
-    };
-
-    Editor.centerVertically = function () {
-        if (!Editor.activeLayer) return;
-        Editor.activeLayer.y = (Editor.height - Editor.activeLayer.h * Editor.activeLayer.scale) / 2;
-        saveState();
-        render();
-    };
-
-    /* -------------------------
-       DELETE LAYER
-    -------------------------- */
-
-    Editor.deleteLayer = function () {
-        if (!Editor.activeLayer) return;
-        Editor.layers = Editor.layers.filter(l => l !== Editor.activeLayer);
-        Editor.activeLayer = null;
-        saveState();
-        render();
-    };
-
-    /* -------------------------
-       KEYBOARD SHORTCUTS
-    -------------------------- */
-
-    document.addEventListener("keydown", e => {
-        if (e.key === "Delete") Editor.deleteLayer();
-        if (e.ctrlKey && e.key === "z") Editor.undo();
-        if (e.ctrlKey && e.key === "y") Editor.redo();
-        if (e.ctrlKey && e.key === "ArrowLeft") Editor.centerHorizontally();
-        if (e.ctrlKey && e.key === "ArrowUp") Editor.centerVertically();
     });
 
-    /* -------------------------
-       EXTEND RENDER FUNCTION
-    -------------------------- */
+    ctx.restore();
+}
 
-    const originalRender = Editor.render || function () {};
+function addTextObject(text = 'New Text') {
+    const id = crypto.randomUUID();
+    const obj = {
+        id,
+        type: 'text',
+        text,
+        x: 200,
+        y: 200,
+        fontSize: 48,
+        fontFamily: 'Arial',
+        color: '#000000',
+        selected: true
+    };
+    MysticEditor.objects.push(obj);
+    MysticEditor.activeObjectId = id;
+    selectObject(id);
+    updateLayersPanel();
+    redrawCanvas();
+}
 
-    function render() {
-        originalRender();
+function addImageObject(img) {
+    const id = crypto.randomUUID();
+    const obj = {
+        id,
+        type: 'image',
+        img,
+        x: 200,
+        y: 200,
+        w: img.width * 0.4,
+        h: img.height * 0.4,
+        selected: true
+    };
+    MysticEditor.objects.push(obj);
+    MysticEditor.activeObjectId = id;
+    selectObject(id);
+    updateLayersPanel();
+    redrawCanvas();
+}
 
-        if (Editor.activeLayer) {
-            drawBoundingBox(Editor.activeLayer);
+function addRectObject() {
+    const id = crypto.randomUUID();
+    const obj = {
+        id,
+        type: 'rect',
+        x: 250,
+        y: 250,
+        w: 200,
+        h: 120,
+        fill: '#cccccc',
+        selected: true
+    };
+    MysticEditor.objects.push(obj);
+    MysticEditor.activeObjectId = id;
+    selectObject(id);
+    updateLayersPanel();
+    redrawCanvas();
+}
+
+function getObjectAt(x, y) {
+    const { objects } = MysticEditor;
+    for (let i = objects.length - 1; i >= 0; i--) {
+        const o = objects[i];
+        const w = o.w || 200;
+        const h = o.h || 80;
+        if (x >= o.x && x <= o.x + w && y >= o.y && y <= o.y + h) {
+            return o;
         }
     }
+    return null;
+}
 
-    Editor.render = render;
+function selectObject(id) {
+    MysticEditor.objects.forEach(o => {
+        o.selected = (o.id === id);
+    });
+    MysticEditor.activeObjectId = id;
+    updateLayersPanel();
+    redrawCanvas();
+}
 
-})();
+function onCanvasMouseDown(e) {
+    const rect = MysticEditor.canvas.getBoundingClientRect();
+    const x = (e.clientX - rect.left) / MysticEditor.zoom;
+    const y = (e.clientY - rect.top) / MysticEditor.zoom;
+
+    const obj = getObjectAt(x, y);
+    if (obj) {
+        selectObject(obj.id);
+        MysticEditor.isDragging = true;
+        MysticEditor.dragOffsetX = x - obj.x;
+        MysticEditor.dragOffsetY = y - obj.y;
+    } else {
+        MysticEditor.activeObjectId = null;
+        MysticEditor.objects.forEach(o => (o.selected = false));
+        updateLayersPanel();
+        redrawCanvas();
+    }
+}
+
+function onCanvasMouseMove(e) {
+    if (!MysticEditor.isDragging || !MysticEditor.activeObjectId) return;
+
+    const rect = MysticEditor.canvas.getBoundingClientRect();
+    const x = (e.clientX - rect.left) / MysticEditor.zoom;
+    const y = (e.clientY - rect.top) / MysticEditor.zoom;
+
+    const obj = MysticEditor.objects.find(o => o.id === MysticEditor.activeObjectId);
+    if (!obj) return;
+
+    obj.x = x - MysticEditor.dragOffsetX;
+    obj.y = y - MysticEditor.dragOffsetY;
+    redrawCanvas();
+}
+
+function onCanvasMouseUp() {
+    MysticEditor.isDragging = false;
+}
+
+function zoomIn() {
+    MysticEditor.zoom = Math.min(MysticEditor.zoom + 0.1, 3);
+    redrawCanvas();
+}
+
+function zoomOut() {
+    MysticEditor.zoom = Math.max(MysticEditor.zoom - 0.1, 0.3);
+    redrawCanvas();
+}
+
+function deleteActiveObject() {
+    if (!MysticEditor.activeObjectId) return;
+    MysticEditor.objects = MysticEditor.objects.filter(
+        o => o.id !== MysticEditor.activeObjectId
+    );
+    MysticEditor.activeObjectId = null;
+    updateLayersPanel();
+    redrawCanvas();
+}
+
+// AI: when image URL is ready, load and add to canvas
+function addAIImageToCanvas(imageUrl) {
+    const img = new Image();
+    img.crossOrigin = 'anonymous';
+    img.onload = () => addImageObject(img);
+    img.src = imageUrl;
+}
+
+// Placeholder AI handler (you’ll wire to real API later)
+function handleAIGenerate() {
+    const prompt = document.getElementById('ai-prompt').value.trim();
+    if (!prompt) return;
+
+    console.log('AI prompt:', prompt);
+    // For now, just add a placeholder rectangle labeled "AI"
+    addTextObject('AI Image');
+}
+
+window.MysticEditor = MysticEditor;
+window.initCanvas = initCanvas;
+window.addTextObject = addTextObject;
+window.addRectObject = addRectObject;
+window.addImageObject = addImageObject;
+window.zoomIn = zoomIn;
+window.zoomOut = zoomOut;
+window.deleteActiveObject = deleteActiveObject;
+window.handleAIGenerate = handleAIGenerate;
+window.selectObject = selectObject;
