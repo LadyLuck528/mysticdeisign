@@ -1,6 +1,7 @@
-async function fetchFontsFrom(path) {
+// Load fonts.json from /fonts/
+async function fetchFontsFrom() {
     try {
-        const res = await fetch(path);
+        const res = await fetch('./fonts/fonts.json');
         if (!res.ok) throw new Error('Failed to fetch fonts.json');
         const data = await res.json();
         return data.fonts || [];
@@ -10,31 +11,25 @@ async function fetchFontsFrom(path) {
     }
 }
 
+// Load actual font files
 async function loadMysticFonts() {
-    const fonts = await fetchFontsFrom('./fonts/fonts.json');
-
-    if (!fonts || !fonts.length) {
-        console.warn('No fonts found in fonts.json');
-        return;
-    }
-
-    const loadedNames = [];
+    const fonts = await fetchFontsFrom();
+    const loaded = [];
 
     for (const font of fonts) {
         try {
             const face = new FontFace(font.name, `url(./fonts/${font.file})`);
             await face.load();
             document.fonts.add(face);
-            loadedNames.push(font.name);
+            loaded.push(font.name);
         } catch (e) {
             console.warn('Failed to load font:', font, e);
         }
     }
 
-    window.MysticFonts = loadedNames;
-    console.log('Loaded MysticFonts:', window.MysticFonts);
+    window.MysticFonts = loaded;
+    console.log("Loaded Mystic Fonts:", loaded);
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-    loadMysticFonts();
-});
+// Expose the function globally so mystic-editor.js can call it
+window.loadMysticFonts = loadMysticFonts;

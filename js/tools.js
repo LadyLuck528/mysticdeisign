@@ -1,64 +1,111 @@
-// Tool registry + simple actions
+// ---------- TOOL DEFINITIONS ----------
 
-const MysticTools = {
-    currentTool: null
+export const tools = {
+  text: {
+    activate(editor) {
+      addNewText(editor);
+    }
+  },
+
+  shape: {
+    activate(editor) {
+      addRectObject(editor);
+    }
+  },
+
+  // Add more tools here as needed
 };
 
-function setTool(toolId) {
-    MysticTools.currentTool = toolId;
-    document.querySelectorAll('.tool-btn').forEach(btn => {
-        btn.classList.toggle('active-tool', btn.dataset.tool === toolId);
-    });
+function initTools() {
+    const textBtn = document.querySelector('.tool-btn[data-flyout="text-flyout"]');
+    const shapesBtn = document.querySelector('.tool-btn[data-flyout="shapes-flyout"]');
+    const uploadBtn = document.getElementById('upload-tool');
+    const zoomTool = document.getElementById('zoom-tool');
+    const undoBtn = document.getElementById('undo-btn');
+    const redoBtn = document.getElementById('redo-btn');
 
-    if (toolId === 'text') {
-        addTextObject();
-    } else if (toolId === 'shapes-rect') {
-        addRectObject();
+    if (textBtn) {
+        textBtn.addEventListener('click', () => {
+            addTextObject('New Text');
+            setActiveTool(textBtn);
+        });
     }
-}
 
-function setupToolButtons() {
-    const map = {
-        'Text': 'text',
-        'Shapes': 'shapes-rect',
-        'Upload': 'upload',
-        'Brush': 'brush',
-        'Eraser': 'eraser',
-        'Select': 'select',
-        'Zoom': 'zoom'
-    };
+    if (shapesBtn) {
+        shapesBtn.addEventListener('click', () => {
+            addRectObject();
+            setActiveTool(shapesBtn);
+        });
+    }
 
-    document.querySelectorAll('#left-toolbar .tool-btn').forEach(btn => {
-        const label = btn.querySelector('.label')?.textContent.trim();
-        const mapped = map[label];
-        if (mapped) {
-            btn.dataset.tool = mapped;
-            btn.addEventListener('click', () => {
-                if (mapped === 'upload') {
-                    triggerUpload();
-                } else if (mapped === 'zoom') {
-                    zoomIn();
-                } else {
-                    setTool(mapped);
-                }
-            });
-        }
+    if (uploadBtn) {
+        uploadBtn.addEventListener('click', () => {
+            openImageUpload();
+            setActiveTool(uploadBtn);
+        });
+    }
+
+    if (zoomTool) {
+        zoomTool.addEventListener('click', () => {
+            // simple toggle: zoom in once, then out
+            if (MysticEditor.zoom < 1.5) {
+                zoomIn();
+            } else {
+                zoomOut();
+            }
+            setActiveTool(zoomTool);
+        });
+    }
+
+    if (undoBtn) {
+        undoBtn.addEventListener('click', () => {
+            undo();
+        });
+    }
+
+    if (redoBtn) {
+        redoBtn.addEventListener('click', () => {
+            redo();
+        });
+    }
+
+    // bottom buttons (Upload / Preview / Add to Cart) – stubs for now
+    const bottomButtons = document.querySelectorAll('#bottom-buttons .primary-btn');
+    bottomButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            console.log('Bottom button clicked:', btn.textContent.trim());
+        });
     });
 }
 
-function triggerUpload() {
-    const input = document.createElement('input');
-    input.type = 'file';
-    input.accept = 'image/*';
-    input.onchange = e => {
-        const file = e.target.files[0];
-        if (!file) return;
-        const img = new Image();
-        img.onload = () => addImageObject(img);
-        img.src = URL.createObjectURL(file);
-    };
-    input.click();
+/* ---------- IMAGE UPLOAD ---------- */
+
+let hiddenFileInput = null;
+
+function openImageUpload() {
+    if (!hiddenFileInput) {
+        hiddenFileInput = document.createElement('input');
+        hiddenFileInput.type = 'file';
+        hiddenFileInput.accept = 'image/*';
+        hiddenFileInput.style.display = 'none';
+        document.body.appendChild(hiddenFileInput);
+
+        hiddenFileInput.addEventListener('change', () => {
+            const file = hiddenFileInput.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = e => {
+                const img = new Image();
+                img.onload = () => addImageObject(img);
+                img.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        });
+    }
+
+    hiddenFileInput.value = '';
+    hiddenFileInput.click();
 }
 
-window.MysticTools = MysticTools;
-window.setupToolButtons = setupToolButtons;
+window.initTools = initTools;
